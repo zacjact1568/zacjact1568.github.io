@@ -58,7 +58,7 @@
   <meta name="description" content="在 Android 中使用 Fragment 时，我们常常会在 Fragment 中定义一些按钮监听之类的事件。在我看来，为 Fragment 中的事件定义回调函数有两种方式，一种是实现接口，另一种是传递函数类型（Kotlin）或匿名内部类（Java）。前一种较为简单，也是官方教程中提到的方式，后一种因为考虑到 Activity 重建的问题，有一些需要注意的地方。这篇文章介绍了这两种方式。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="为 Fragment 定义事件回调的两种方式">
-<meta property="og:url" content="https://zacjact1568.github.io/post/two-ways-to-define-callbacks-for-fragments.html">
+<meta property="og:url" content="https://code.zackzhang.net/post/two-ways-to-define-callbacks-for-fragments.html">
 <meta property="og:site_name" content="全杰是也">
 <meta property="og:description" content="在 Android 中使用 Fragment 时，我们常常会在 Fragment 中定义一些按钮监听之类的事件。在我看来，为 Fragment 中的事件定义回调函数有两种方式，一种是实现接口，另一种是传递函数类型（Kotlin）或匿名内部类（Java）。前一种较为简单，也是官方教程中提到的方式，后一种因为考虑到 Activity 重建的问题，有一些需要注意的地方。这篇文章介绍了这两种方式。">
 <meta property="og:locale" content="zh-CN">
@@ -66,7 +66,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="为 Fragment 定义事件回调的两种方式">
 <meta name="twitter:description" content="在 Android 中使用 Fragment 时，我们常常会在 Fragment 中定义一些按钮监听之类的事件。在我看来，为 Fragment 中的事件定义回调函数有两种方式，一种是实现接口，另一种是传递函数类型（Kotlin）或匿名内部类（Java）。前一种较为简单，也是官方教程中提到的方式，后一种因为考虑到 Activity 重建的问题，有一些需要注意的地方。这篇文章介绍了这两种方式。">
-  <link rel="canonical" href="https://zacjact1568.github.io/post/two-ways-to-define-callbacks-for-fragments">
+  <link rel="canonical" href="https://code.zackzhang.net/post/two-ways-to-define-callbacks-for-fragments">
 
 
 <script id="page-configurations">
@@ -164,6 +164,19 @@
       
         
         
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
         <li class="menu-item menu-item-about">
       
     
@@ -199,11 +212,11 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zacjact1568.github.io/post/two-ways-to-define-callbacks-for-fragments.html">
+    <link itemprop="mainEntityOfPage" href="https://code.zackzhang.net/post/two-ways-to-define-callbacks-for-fragments.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="全杰是也">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="见证">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
@@ -234,17 +247,6 @@
             </span>
           
 
-          
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">本文字数：</span>
-              
-              <span>5k</span>
-            </span>
           
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -305,24 +307,6 @@
     
     
         
-      
-        
-
-<div>
-<ul class="post-copyright">
-  <li class="post-copyright-author">
-    <strong>本文作者： </strong>全杰是也
-  </li>
-  <li class="post-copyright-link">
-    <strong>本文链接：</strong>
-    <a href="https://zacjact1568.github.io/post/two-ways-to-define-callbacks-for-fragments.html" title="为 Fragment 定义事件回调的两种方式">https://zacjact1568.github.io/post/two-ways-to-define-callbacks-for-fragments.html</a>
-  </li>
-  <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
-  </li>
-</ul>
-</div>
-
       
 
       <footer class="post-footer">
@@ -401,13 +385,13 @@
       src="/images/avatar.jpg"
       alt="全杰是也">
   <p class="site-author-name" itemprop="name">全杰是也</p>
-  <div class="site-description" itemprop="description"></div>
+  <div class="site-description" itemprop="description">见证</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         
-          <a href="/archives">
+          <a href="/archives/">
         
           <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">日志</span>
