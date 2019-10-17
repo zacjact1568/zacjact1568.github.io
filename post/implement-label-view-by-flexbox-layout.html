@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Sans:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="写过前端的人一定不会对 CSS 3 中的弹性盒子布局（Flexible Box Layout）陌生吧。这篇文章介绍了如何在 Android 中使用 Google 推出的 FlexboxLayout 实现标签控件。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过 FlexboxLayout 实现标签控件">
+<meta property="og:url" content="https://zacjact1568.github.io/post/implement-label-view-by-flexbox-layout.html">
+<meta property="og:site_name" content="全杰是也">
+<meta property="og:description" content="写过前端的人一定不会对 CSS 3 中的弹性盒子布局（Flexible Box Layout）陌生吧。这篇文章介绍了如何在 Android 中使用 Google 推出的 FlexboxLayout 实现标签控件。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1771371-15afeeae03518290.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1771371-84b2a54f62a90d27.JPG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1771371-f7b34c3a274a3803.gif?imageMogr2/auto-orient/strip">
+<meta property="og:updated_time" content="2019-10-17T05:07:37.541Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通过 FlexboxLayout 实现标签控件">
+<meta name="twitter:description" content="写过前端的人一定不会对 CSS 3 中的弹性盒子布局（Flexible Box Layout）陌生吧。这篇文章介绍了如何在 Android 中使用 Google 推出的 FlexboxLayout 实现标签控件。">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1771371-15afeeae03518290.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  <link rel="canonical" href="https://zacjact1568.github.io/post/implement-label-view-by-flexbox-layout">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>通过 FlexboxLayout 实现标签控件 | 全杰是也</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">全杰是也</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">见证</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+        
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+    
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zacjact1568.github.io/post/implement-label-view-by-flexbox-layout.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="全杰是也">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全杰是也">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            通过 FlexboxLayout 实现标签控件
+            
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-21 00:00:00" itemprop="dateCreated datePublished" datetime="2018-08-21T00:00:00+08:00">2018-08-21</time>
+            </span>
+          
+
+          
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>5.2k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>5 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>写过前端的人一定不会对 CSS 3 中的<a href="https://www.w3.org/TR/css-flexbox-1" target="_blank" rel="noopener">弹性盒子布局</a>（Flexible Box Layout）陌生吧。这篇文章介绍了如何在 Android 中使用 Google 推出的 <a href="https://github.com/google/flexbox-layout" target="_blank" rel="noopener">FlexboxLayout</a> 实现标签控件。</p>
+<a id="more"></a>
+<div class="note info">
+            <p>本文使用的编程语言为 Kotlin</p>
+          </div>
+<h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>在设计 Cold 的关于界面时，想到需要将使用到的服务或开源库列出来。觉得使用列表的方式不好看，看到很多 app 和网站中热门标签的设计，想到可以使用标签的方式来呈现，就在 Sketch 上画好了（我只是个 UI 设计小白）：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1771371-15afeeae03518290.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>高亮的这一块，就是标签控件了，那么如何来实现呢？</p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>CSS 3 中的 Flexible Box Layout 是个很好用的布局，可以根据屏幕宽度调整容器中每一行显示元素的数量，当一行结束的位置显示不下某个元素时，该元素会被移至下一行的起始位置。</p>
+<p>在网上查了一下，有很多篇关于这样控件的实现方式的文章，大多都叫“FlowLayout”（流式布局）。但是，这些开源库基本上都是继承 ViewGroup，在其中调整子控件的布局，当某一行的所有控件宽度之和大于该 ViewGroup 的宽度时，将该行结束位置的控件移动到下一行的起始位置，这样的话需要在 xml 布局文件中使用 ViewGroup 的方式来写，明显这样的控件里面的子控件可以互不相同。然而在需求中可以看到，所有的标签都是一样的，使用 TextView 加 Shape 作为背景就行，也就是说我得写一大堆有相同背景而只有文本不同的 TextView，有点小题大做的感觉，这就应该用集合布局 + 适配器（e.g. RecyclerView + Adapter）的方式来实现嘛。</p>
+<p>后来猛然想起以前好像看过一篇关于 Google 开源的弹性盒子布局（当时想不起来具体叫什么名字了）的文章，立马去搜，还真让我搜到了，就是 FlexboxLayout。更惊喜的是，除了提供上面说的那种 ViewGroup 的方式，还提供了 RecyclerView 的方式，使用 LayoutManager 即可，这就是这篇文章的主角啦。</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>在<strong>模块级</strong> <code>build.gradle</code> 文件中添加：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    ...</span><br><span class="line">    implementation <span class="string">'com.google.android:flexbox:1.0.0'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>FlexboxLayout 有两种使用方式，ViewGroup 方式和 LayoutManager 方式，主要关注第二种。</p>
+<p>LayoutManager 决定了 RecyclerView 中子布局的排列方式，而 <code>FlexboxLayoutManager</code> 正是指定子布局按弹性盒子的方式排列。<code>FlexboxLayoutManager</code> 有多个属性，可以指定排列方向等，默认是从左到右、从上到下多行排列，因此，根据需求，直接使用默认设置即可。</p>
+<p>首先在布局文件中写一个 RecyclerView：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">android.support.v7.widget.RecyclerView</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:id</span>=<span class="string">"@+id/vLibraryLabel"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在 Activity 中引用该 RecyclerView，将它的 LayoutManager 设置为 <code>FlexboxLayoutManager</code>：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vLibraryLabel.layoutManager = FlexboxLayoutManager(<span class="keyword">this</span>)</span><br></pre></td></tr></table></figure>
+<p>由于不需要设置 <code>FlexboxLayoutManager</code> 的其他属性，直接使用只有一个参数的构造函数。</p>
+<div class="note warning">
+            <p>注意：在布局文件中使用</p><p><code>app:layoutManager=&quot;com.google.android.flexbox.FlexboxLayoutManager&quot;</code></p><p>指定 LayoutManager 无效（版本 1.0.0）。</p>
+          </div>
+<p>然后，在 <code>drawable</code> 资源目录中添加文件 <code>bg_library_item_base.xml</code>，指定每个标签的背景：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">shape</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 边框宽度与颜色 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">stroke</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:width</span>=<span class="string">"1.5dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:color</span>=<span class="string">"@color/colorPrimary"</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 圆角半径 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">corners</span> <span class="attr">android:radius</span>=<span class="string">"16dp"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">shape</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>@color/colorPrimary</code> 引用了基础色。</p>
+<p>在 <code>layout</code> 资源目录中添加文件 <code>item_label_library.xml</code>，指定每个标签的布局：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:id</span>=<span class="string">"@+id/vLibraryText"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:textColor</span>=<span class="string">"@color/colorPrimary"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:background</span>=<span class="string">"@drawable/bg_library_item_base"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:paddingTop</span>=<span class="string">"4dp"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:paddingBottom</span>=<span class="string">"4dp"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:paddingStart</span>=<span class="string">"12dp"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:paddingEnd</span>=<span class="string">"12dp"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>写一个适配器 <code>LibraryLabelAdapter</code>：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LibraryLabelAdapter</span> : <span class="type">RecyclerView.Adapter</span>&lt;<span class="type">LibraryLabelAdapter.ItemViewHolder</span>&gt;</span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> libraries = arrayOf(</span><br><span class="line">            Pair(<span class="string">"HeWeather"</span>, <span class="string">"https://www.heweather.com"</span>),</span><br><span class="line">            ...</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreateViewHolder</span><span class="params">(parent: <span class="type">ViewGroup</span>, viewType: <span class="type">Int</span>)</span></span> =</span><br><span class="line">            ItemViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_label_library, parent, <span class="literal">false</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onBindViewHolder</span><span class="params">(holder: <span class="type">ItemViewHolder</span>, position: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">val</span> (name, link) = libraries[position]</span><br><span class="line">        holder.vLibraryText.text = name</span><br><span class="line">        holder.itemView.setOnClickListener &#123;</span><br><span class="line">            <span class="comment">// 点击标签打开链接</span></span><br><span class="line">            <span class="keyword">val</span> intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))</span><br><span class="line">            <span class="keyword">if</span> (intent.resolveActivity(activity.packageManager) != <span class="literal">null</span>) &#123;</span><br><span class="line">                activity.startActivity(intent)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">getItemCount</span><span class="params">()</span></span> = libraries.size</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">ItemViewHolder</span></span>(<span class="keyword">override</span> <span class="keyword">val</span> containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 Activity 中将 RecyclerView 的 Adapter 设置为 <code>LibraryLabelAdapter</code>：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vLibraryLabel.adapter = LibraryLabelAdapter()</span><br></pre></td></tr></table></figure>
+<p>标签之间需要有一定距离才美观。如果在每个标签的布局上使用 <code>layout_margin</code> 属性的话，四周也会有分隔，而只是要求在标签之间添加分隔，因此应该使用 RecyclerView 的 ItemDecoration。而 FlexboxLayout 提供了一个 <code>FlexboxItemDecoration</code>，可以用来在标签之间添加分隔区域。</p>
+<p>在 <code>drawable</code> 资源目录中添加文件 <code>bg_library_divider.xml</code>，指定分隔区域的背景：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">shape</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 透明背景 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">solid</span> <span class="attr">android:color</span>=<span class="string">"@android:color/transparent"</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 横向分隔区域的宽与纵向分隔区域的高 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">size</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:width</span>=<span class="string">"6dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:height</span>=<span class="string">"4dp"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">shape</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在 Activity 中设置 RecyclerView 的 ItemDecoration：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> libraryItemDecoration = FlexboxItemDecoration(<span class="keyword">this</span>)</span><br><span class="line">libraryItemDecoration.setDrawable(getDrawable(R.drawable.bg_library_divider))</span><br><span class="line">vLibraryLabel.addItemDecoration(libraryItemDecoration)</span><br></pre></td></tr></table></figure>
+<p>搞定啦：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1771371-84b2a54f62a90d27.JPG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p><strong>Bonus：为标签设置水波纹触摸效果</strong></p>
+<p>上面的标签是没有触摸效果的，这不能给用户很好的反馈。而 <a href="https://material.io" target="_blank" rel="noopener">Material Design</a> 中，触摸效果一般会做成水波纹效果（Ripple Effect）。</p>
+<p>在 <code>drawable</code> 资源目录中添加文件 <code>bg_library_item_mask.xml</code>，指定水波纹效果的蒙版，当按住标签的时候，该文件中定义的 Shape 就会显现出来，所以应该是实心（solid）的：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">shape</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 实心颜色 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">solid</span> <span class="attr">android:color</span>=<span class="string">"@android:color/black"</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 圆角半径 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">corners</span> <span class="attr">android:radius</span>=<span class="string">"16dp"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">shape</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>其中，实心颜色与水波纹颜色没什么关系（只要不是透明的就行，经测试，透明的话会导致水波纹无颜色），圆角半径则与 <code>bg_library_item_base.xml</code> 中的相同。</p>
+<p>再在 <code>drawable</code> 资源目录中添加文件 <code>bg_library_item.xml</code>，指定水波纹效果：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ripple</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:color</span>=<span class="string">"@color/colorPrimaryLight"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 蒙版 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@android:id/mask"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:drawable</span>=<span class="string">"@drawable/bg_library_item_mask"</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 背景 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:drawable</span>=<span class="string">"@drawable/bg_library_item_base"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ripple</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>其中，<code>ripple</code> 标签中的 <code>android:color</code> 属性指定水波纹颜色，这里使用 <code>@color/colorPrimaryLight</code> 引用了浅基础色。其中有两个 <code>item</code> 标签，第一个使用 <code>android:id=&quot;@android:id/mask&quot;</code> 指定该 item 为蒙版，在按住标签时显现，<code>android:drawable</code> 属性为上面定义的蒙版文件；第二个指定背景，始终显示，<code>android:drawable</code> 属性为之前定义的背景文件。</p>
+<p>最后，修改 <code>item_label_library.xml</code>，将 <code>android:background</code> 属性更改为 <code>@drawable/bg_library_item</code>。</p>
+<p>效果如图：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1771371-f7b34c3a274a3803.gif?imageMogr2/auto-orient/strip" alt></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://github.com/google/flexbox-layout" target="_blank" rel="noopener">google/flexbox-layout: Flexbox for Android</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>全杰是也
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zacjact1568.github.io/post/implement-label-view-by-flexbox-layout.html" title="通过 FlexboxLayout 实现标签控件">https://zacjact1568.github.io/post/implement-label-view-by-flexbox-layout.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/post/find-the-median-of-two-sorted-arrays.html" rel="next" title="寻找两个有序数组的中位数">
+                  <i class="fa fa-chevron-left"></i> 寻找两个有序数组的中位数
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/post/find-the-longest-palindromic-substring-of-a-string.html" rel="prev" title="寻找字符串的最长回文子串">
+                  寻找字符串的最长回文子串 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#需求"><span class="nav-number">1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.jpg"
+      alt="全杰是也">
+  <p class="site-author-name" itemprop="name">全杰是也</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="https://github.com/zacjact1568" title="GitHub &rarr; https://github.com/zacjact1568" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="mailto:zxjue@outlook.com" title="E-Mail &rarr; mailto:zxjue@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+    
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-code"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">全杰是也</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+<script src="/js/utils.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

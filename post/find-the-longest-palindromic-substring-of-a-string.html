@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Sans:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="这个问题来自 LeetCode 的第 5 道题 Longest Palindromic Substring。在这篇文章中我将给出对两个 Accepted 算法的理解。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="寻找字符串的最长回文子串">
+<meta property="og:url" content="https://zacjact1568.github.io/post/find-the-longest-palindromic-substring-of-a-string.html">
+<meta property="og:site_name" content="全杰是也">
+<meta property="og:description" content="这个问题来自 LeetCode 的第 5 道题 Longest Palindromic Substring。在这篇文章中我将给出对两个 Accepted 算法的理解。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1771371-b8644eafd93ccadc.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1771371-638887045c2b40cb.png">
+<meta property="og:updated_time" content="2018-09-06T02:41:30.729Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="寻找字符串的最长回文子串">
+<meta name="twitter:description" content="这个问题来自 LeetCode 的第 5 道题 Longest Palindromic Substring。在这篇文章中我将给出对两个 Accepted 算法的理解。">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1771371-b8644eafd93ccadc.png">
+  <link rel="canonical" href="https://zacjact1568.github.io/post/find-the-longest-palindromic-substring-of-a-string">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>寻找字符串的最长回文子串 | 全杰是也</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">全杰是也</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">见证</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+        
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+    
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zacjact1568.github.io/post/find-the-longest-palindromic-substring-of-a-string.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="全杰是也">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全杰是也">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            寻找字符串的最长回文子串
+            
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-05 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-05T00:00:00+08:00">2018-09-05</time>
+            </span>
+          
+
+          
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>3.6k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>3 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这个问题来自 <a href="https://leetcode.com/" target="_blank" rel="noopener">LeetCode</a> 的第 5 道题 <a href="https://leetcode.com/problems/longest-palindromic-substring/description/" target="_blank" rel="noopener">Longest Palindromic Substring</a>。在这篇文章中我将给出对两个 Accepted 算法的理解。</p>
+<a id="more"></a>
+<h1 id="原题"><a href="#原题" class="headerlink" title="原题"></a>原题</h1><p>Given a string <strong>s</strong>, find the longest palindromic substring in <strong>s</strong>. You may assume that the maximum length of <strong>s</strong> is 1000.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: &quot;babad&quot;</span><br><span class="line">Output: &quot;bab&quot;</span><br><span class="line">Note: &quot;aba&quot; is also a valid answer.</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: &quot;cbbd&quot;</span><br><span class="line">Output: &quot;bb&quot;</span><br></pre></td></tr></table></figure>
+<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>在一个给定的字符串 $s$ 中找出最长的回文子串。“回文”指这个字符串无论是正着看还是反着看，内容都是相同的，也就是中心对称。</p>
+<h1 id="暴力算法"><a href="#暴力算法" class="headerlink" title="暴力算法"></a>暴力算法</h1><h2 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h2><p>很明显，这道题可以使用暴力（Brute Force）算法解决：在 $s$ 上使用滑动窗遍历所有子串，对于每一个子串，判断其是否为回文即可。</p>
+<p>要判断某个字符串是否为回文，首先判断其第一个字符是否与最后一个字符相等，若相等，再判断第二个字符与倒数第二个字符是否相等，以此类推。若有一次判断的结果是不相等的，说明这个字符串不对称，因此不是回文。</p>
+<h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><p>设 $s$ 长度为 $n$。</p>
+<p>首先考虑使用滑动窗遍历所有子串。每个子串的起始与结束位置决定了该子串，换句话说，每个子串由两个位置决定。而 $s$ 的长度为 $n$，即有 $n$ 个位置，那么共有 $\binom{n}{2}=\frac{n(n-1)}{2}$ 个子串。花费时间为 $O(n^2)$。</p>
+<p>再考虑对于每个子串，判断其是否为回文。设子串长度为 $len$，则单个子串最多需比较 $\left\lfloor\frac{len}{2}\right\rfloor$ 次，而 $len$ 最大为 $n$，则对于所有子串来说，单个子串最多需比较 $\left\lfloor\frac{n}{2}\right\rfloor$ 次。花费时间为 $O(n)$。</p>
+<p>综上，时间复杂度为 $O(n^3)$。<br>​</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>使用 C++ 实现该算法。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">findLongestPalindromicSubstring</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 定义找出的最长回文子串的起始与结束下标，会在遍历子串的过程中不断更新</span></span><br><span class="line">    <span class="keyword">int</span> start = <span class="number">0</span>, end = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 定义当前遍历到的子串的长度与当前遍历到的最长回文子串的长度</span></span><br><span class="line">    <span class="keyword">int</span> len = <span class="number">0</span>, maxLen = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 指示当前遍历到的子串是否是回文</span></span><br><span class="line">    <span class="keyword">bool</span> isPalindromic = <span class="literal">false</span>;</span><br><span class="line">    <span class="comment">// i 和 j 表示滑动窗的起始与结束下标</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.size(); ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt; s.size(); ++j) &#123;</span><br><span class="line">            len = j - i + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (len &gt; maxLen) &#123;</span><br><span class="line">                <span class="comment">// 只有当当前遍历到的子串长度大于上一个回文串的长度时才考虑该子串是否是回文</span></span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; len / <span class="number">2</span>; ++k) &#123;</span><br><span class="line">                    <span class="comment">// 从子串的两边向中间比较</span></span><br><span class="line">                    <span class="keyword">if</span> (s[i + k] != s[j - k]) &#123;</span><br><span class="line">                        <span class="comment">// 只要找到一对位置对称的字符不相等，该子串就不是回文</span></span><br><span class="line">                        isPalindromic = <span class="literal">false</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (k == len / <span class="number">2</span> - <span class="number">1</span>) &#123;</span><br><span class="line">                        <span class="comment">// 如果找到子串的中间位置，所有对称位置对称的字符都相等，说明该子串是回文</span></span><br><span class="line">                        isPalindromic = <span class="literal">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (isPalindromic || len == <span class="number">1</span>) &#123;</span><br><span class="line">                    <span class="comment">// 如果前面判断出该子串是回文，或者该子串的长度为 1，更新变量</span></span><br><span class="line">                    <span class="comment">// 第二种情况下不会进入前面的 for 循环，isPalindromic 为 false，但它确实是回文</span></span><br><span class="line">                    maxLen = len;</span><br><span class="line">                    start = i;</span><br><span class="line">                    end = j;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 遍历子串结束，从 s 中截取最长回文子串并返回</span></span><br><span class="line">    <span class="keyword">return</span> s.substr((<span class="keyword">unsigned</span> <span class="keyword">long</span>) start, (<span class="keyword">unsigned</span> <span class="keyword">long</span>) end - start + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="提交结果"><a href="#提交结果" class="headerlink" title="提交结果"></a>提交结果</h2><p>这是我的 LeetCode 提交结果：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1771371-b8644eafd93ccadc.png" alt></p>
+<h1 id="动态规划算法"><a href="#动态规划算法" class="headerlink" title="动态规划算法"></a>动态规划算法</h1><h2 id="思想-1"><a href="#思想-1" class="headerlink" title="思想"></a>思想</h2><p>暴力算法的时间复杂度还是太高了，动态规划（Dynamic Programming）算法可以把时间复杂度降低到 $O(n^2)$。</p>
+<p><strong>定义子问题</strong></p>
+<p>如果已知一个子串是回文，那么考虑该子串向左右各扩展一个字符的新子串，如果左右新增的两个字符相等，那么这个新子串也一定是回文，否则新子串不是回文。</p>
+<p><strong>列递归关系式</strong></p>
+<p>使用 $OPT(j,i)$ 表示起始和结束位置分别是 $j$ 和 $i$ 的子串是否为回文（因为后面代码里是先 $j$ 后 $i$），如果是，值为 $true$，否则值为 $false$。</p>
+<p>考虑边界条件：</p>
+<p>长度为 1 的子串是回文。</p>
+<p>长度为 2 的子串，若其中两个字符相等，是回文。</p>
+<p>列递归关系式如下：</p>
+<script type="math/tex; mode=display">
+OPT(j,i)=
+\begin{cases}
+true&\text{j=i}\\\
+s[j]==s[i]&\text{i-j=1}\\\
+s[j]==s[i]\wedge OPT(j+1,i-1)&\text{i-j>1}
+\end{cases}</script><p>可见，递归关系式中包含了两个边界条件。此外，由于 $j$ 是起始位置而 $i$ 是结束位置，代码中会限制 $j\leq i$，因此就没有写 $\text{otherwise}$ 的情况。 </p>
+<p><strong>使用自底向上方法求解</strong></p>
+<p>动态规划算法的求解有两种，自顶向下和自底向上，前者使用递归，后者使用循环，我一般使用后者（因为算法课的考试要求就是后者🌚……）。</p>
+<p>就以“babad”为例吧，列表如下：</p>
+<style type="text/css">
+    .dp-table td {
+        text-align: center;
+    }
+    .substring {
+        font-weight: bold;
+    }
+    .result {
+        background-color: silver;
+    }
+</style>
+
+<table class="dp-table"><tr><td></td><td class="substring">b</td><td class="substring">a</td><td class="substring">b</td><td class="substring">a</td><td class="substring">d</td></tr><tr><td class="substring">b</td><td>true</td><td>false</td><td class="result">true</td><td>false</td><td>false</td></tr><tr><td class="substring">a</td><td></td><td>true</td><td>false</td><td class="result">true</td><td>false</td></tr><tr><td class="substring">b</td><td></td><td></td><td>true</td><td>false</td><td>false</td></tr><tr><td class="substring">a</td><td></td><td></td><td></td><td>true</td><td>false</td></tr><tr><td class="substring">d</td><td></td><td></td><td></td><td></td><td>true</td></tr></table>
+
+<p>由于是求最长回文子串，当然是越靠近右上角的表格对应的子串越长，于是查找表中靠近右上角并且值为 true 的表格对应的子串。如表中所示，发现 (0, 2) 和 (1, 3) 两个表格满足此要求（已标为深色），它们的长度都为 3，对应的子串分别为“bab”和“aba”，因此它们都是“babad”的最长回文子串。</p>
+<h2 id="时间复杂度-1"><a href="#时间复杂度-1" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><p>明显，整个算法的过程实际上就是在计算上面那张表，设 $s$ 长度为 $n$，则有 $n^2$ 个表格， 其中需要计算的有 $\frac{(n+1)n}{2}$ 个，因此时间复杂度为 $O(n^2)$。</p>
+<h2 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h2><p>使用 C++ 实现该算法。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">findLongestPalindromicSubstring</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> total = s.size();</span><br><span class="line">    <span class="comment">// 储存上面表格值的数组</span></span><br><span class="line">    <span class="keyword">bool</span> isPalindromic[total][total];</span><br><span class="line">    <span class="keyword">int</span> start = <span class="number">0</span>, end = <span class="number">0</span>, len = <span class="number">0</span>, maxLen = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// j 是子串的起始位置，i 是结束位置</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; total; ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt;= i; ++j) &#123;</span><br><span class="line">            <span class="keyword">if</span> (j == i) &#123;</span><br><span class="line">                isPalindromic[j][i] = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (i - j == <span class="number">1</span>) &#123;</span><br><span class="line">                isPalindromic[j][i] = s[i] == s[j];</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (i - j &gt; <span class="number">1</span>) &#123;</span><br><span class="line">                isPalindromic[j][i] = s[i] == s[j] &amp;&amp; isPalindromic[j + <span class="number">1</span>][i - <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            len = i - j + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (isPalindromic[j][i] &amp;&amp; len &gt; maxLen) &#123;</span><br><span class="line">                <span class="comment">// 只有当该子串是回文，且长度大于上一个回文串的长度时才更新变量</span></span><br><span class="line">                maxLen = len;</span><br><span class="line">                start = j;</span><br><span class="line">                end = i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> s.substr((<span class="keyword">unsigned</span> <span class="keyword">long</span>) start, (<span class="keyword">unsigned</span> <span class="keyword">long</span>) end - start + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="提交结果-1"><a href="#提交结果-1" class="headerlink" title="提交结果"></a>提交结果</h2><p>这是我的 LeetCode 提交结果：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1771371-638887045c2b40cb.png" alt></p>
+<p>Excuse me？？？居然比暴力算法还慢，怀疑我写了个假的动态规划……</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>这道题其实很早就做完了，现在还是觉得有必要记录一下，不然后面全忘了。当初做这道题的时候第一反应也是动态规划，但是不知道怎么定义子问题，就用了暴力算法😑……</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>全杰是也
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zacjact1568.github.io/post/find-the-longest-palindromic-substring-of-a-string.html" title="寻找字符串的最长回文子串">https://zacjact1568.github.io/post/find-the-longest-palindromic-substring-of-a-string.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/post/implement-label-view-by-flexbox-layout.html" rel="next" title="通过 FlexboxLayout 实现标签控件">
+                  <i class="fa fa-chevron-left"></i> 通过 FlexboxLayout 实现标签控件
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/post/upgrading-openssl-for-centos-7-by-compiling-source-codes.html" rel="prev" title="通过编译源码为 CentOS 7 升级 OpenSSL">
+                  通过编译源码为 CentOS 7 升级 OpenSSL <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#原题"><span class="nav-number">1.</span> <span class="nav-text">原题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题描述"><span class="nav-number">2.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#暴力算法"><span class="nav-number">3.</span> <span class="nav-text">暴力算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#思想"><span class="nav-number">3.1.</span> <span class="nav-text">思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间复杂度"><span class="nav-number">3.2.</span> <span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">3.3.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提交结果"><span class="nav-number">3.4.</span> <span class="nav-text">提交结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动态规划算法"><span class="nav-number">4.</span> <span class="nav-text">动态规划算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#思想-1"><span class="nav-number">4.1.</span> <span class="nav-text">思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间复杂度-1"><span class="nav-number">4.2.</span> <span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现-1"><span class="nav-number">4.3.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提交结果-1"><span class="nav-number">4.4.</span> <span class="nav-text">提交结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">5.</span> <span class="nav-text">后记</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.jpg"
+      alt="全杰是也">
+  <p class="site-author-name" itemprop="name">全杰是也</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="https://github.com/zacjact1568" title="GitHub &rarr; https://github.com/zacjact1568" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="mailto:zxjue@outlook.com" title="E-Mail &rarr; mailto:zxjue@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+    
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-code"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">全杰是也</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+<script src="/js/utils.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+  
+
+  
+
+  
+
+</body>
+</html>

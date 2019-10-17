@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Sans:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="这篇文章介绍了我在 Ubuntu 18.04 上搭建官方的 Minecraft 基岩版服务端（Minecraft Bedrock Dedicated Server）的过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Ubuntu 18.04 上搭建 Minecraft 基岩版官方服务端">
+<meta property="og:url" content="https://zacjact1568.github.io/post/installing-minecraft-bedrock-dedicated-server-on-ubuntu-18-04.html">
+<meta property="og:site_name" content="全杰是也">
+<meta property="og:description" content="这篇文章介绍了我在 Ubuntu 18.04 上搭建官方的 Minecraft 基岩版服务端（Minecraft Bedrock Dedicated Server）的过程。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://image.zacjact1568.com/post/inst-mcbds-download-page.jpg">
+<meta property="og:image" content="https://image.zacjact1568.com/post/inst-mcbds-client-version.jpg">
+<meta property="og:image" content="https://image.zacjact1568.com/post/inst-mcbds-aliyun-open-port.jpg">
+<meta property="og:image" content="https://image.zacjact1568.com/post/inst-mcbds-start-server.jpg">
+<meta property="og:image" content="https://image.zacjact1568.com/post/inst-mcbds-client-add-server.jpg">
+<meta property="og:image" content="https://image.zacjact1568.com/post/inst-mcbds-client-server-list.jpg">
+<meta property="og:image" content="https://image.zacjact1568.com/post/inst-mcbds-world-first-glance.jpg">
+<meta property="og:updated_time" content="2019-10-17T06:07:54.874Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在 Ubuntu 18.04 上搭建 Minecraft 基岩版官方服务端">
+<meta name="twitter:description" content="这篇文章介绍了我在 Ubuntu 18.04 上搭建官方的 Minecraft 基岩版服务端（Minecraft Bedrock Dedicated Server）的过程。">
+<meta name="twitter:image" content="https://image.zacjact1568.com/post/inst-mcbds-download-page.jpg">
+  <link rel="canonical" href="https://zacjact1568.github.io/post/installing-minecraft-bedrock-dedicated-server-on-ubuntu-18-04">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>在 Ubuntu 18.04 上搭建 Minecraft 基岩版官方服务端 | 全杰是也</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">全杰是也</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">见证</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+        
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+    
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zacjact1568.github.io/post/installing-minecraft-bedrock-dedicated-server-on-ubuntu-18-04.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="全杰是也">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全杰是也">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            在 Ubuntu 18.04 上搭建 Minecraft 基岩版官方服务端
+            
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-30 00:00:00" itemprop="dateCreated datePublished" datetime="2019-03-30T00:00:00+08:00">2019-03-30</time>
+            </span>
+          
+
+          
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>3.7k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>3 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章介绍了我在 Ubuntu 18.04 上搭建官方的 Minecraft 基岩版服务端（Minecraft Bedrock Dedicated Server）的过程。</p>
+<a id="more"></a>
+<div class="note warning">
+            <div style="color: #f0ad4e; font-size: 1.3em; font-weight: bold">⚠️ 注意</div><p>请务必使用 Ubuntu 18.04（或更高版本，未测试），其他 Linux 发行版理论上也行，只是会有很多坑，别问我为什么知道。</p>
+          </div>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>阿里云学生机，配置为 1 核 CPU，2G 内存，拥有公网 IP，操作系统为 Ubuntu 18.04。</p>
+<p>我以 <code>zack</code> 用户的身份登录到服务器。该用户加入了 <code>sudo</code> 组，也就是说可以使用 <code>sudo</code> 命令提权。这是我专门用来操作该服务器的用户，用 <code>root</code> 用户直接操控系统是很不安全的（当然，有自信的当我没说，且用且珍惜）。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>打开官方服务端的下载<a href="https://www.minecraft.net/zh-hans/download/server/bedrock/" target="_blank" rel="noopener">页面</a>：</p>
+<p><img src="https://image.zacjact1568.com/post/inst-mcbds-download-page.jpg" alt="inst-mcbds-download-page"></p>
+<p>右边是 Ubuntu 的服务端。勾选同意协议后，右键下载按钮拷贝链接，写这篇文章时的最新版本为 1.10.0.7。</p>
+<div class="note warning">
+            <p>请留意 Minecraft 客户端的大版本是否与下载的一致，客户端版本在主界面右下角：</p><p><img src="https://image.zacjact1568.com/post/inst-mcbds-client-version.jpg" alt="inst-mcbds-client-version"></p><p>如果客户端版本高于服务器，在连接服务器的时候会提示“无法连接：过期的服务器”。</p>
+          </div>
+<p>接着在服务器上操作：</p>
+<p>创建安装服务端的目录，例如我的是 <code>~/minecraft/bedrock</code>。<code>cd</code> 进入该目录，使用 <code>wget</code> 下载刚才拷贝的链接，是一个压缩包，然后使用 <code>unzip</code> 解压（找不到命令的话用 <code>apt</code> 安装）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://minecraft.azureedge.net/bin-linux/bedrock-server-1.10.0.7.zip</span><br><span class="line">unzip bedrock-server-1.10.0.7.zip</span><br></pre></td></tr></table></figure>
+<p>可以看到，解压出来的文件中有一个 <code>bedrock_server_how_to.html</code> 文件，这是附的<strong>教程</strong>，在本地下载一份打开查看。</p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>根据教程，配置文件为 <code>server.properties</code>，用 <code>vim</code> 打开修改。配置文件中的选项参考教程。我改了下面几个选项：</p>
+<ul>
+<li>服务端名称：<code>server-name=Zack&#39;s Minecraft Bedrock Dedicated Server</code></li>
+<li>难度：<code>difficulty=normal</code>，默认是 <code>easy</code></li>
+<li>最大玩家数：<code>max-players=3</code>，我这小服务器可承受不起 10 个人</li>
+<li>白名单：<code>white-list=true</code>，稍后设置</li>
+<li>世界名称：<code>level-name=Nitrogen</code>，我的 Minecraft 世界名称是按元素周期表上常温下是气体的元素顺序来命名的，这是我的第三个世界（前两个是 Java 版的），so……PS：世界的相关文件放在 <code>worlds</code> 中的同名文件夹中，有则加载，无则新建，也就是说如果要更换世界，在启动服务端之前更改这个选项就行</li>
+</ul>
+<p>接下来设置白名单，配置文件为 <code>whitelist.json</code>，用 <code>vim</code> 打开修改。我的配置如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">        &#123;</span><br><span class="line">                <span class="attr">"name"</span>: <span class="string">"zacjact1568"</span>,</span><br><span class="line">                <span class="attr">"ignoresPlayerLimit"</span>: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>name</code>：玩家的 Xbox Live 游戏标签，因此要求玩家必须登录 Xbox Live（盗版退散）</li>
+<li><code>ignoresPlayerLimit</code>：是否忽略 <code>server.properties</code> 中使用 <code>max-players</code> 选项指定的最大玩家数，但服务端硬性规定了玩家数不能超过 30，也就是说，如果当前服务端中玩家数大于指定的最大玩家数但小于 30，那么该字段为 <code>true</code> 的玩家就可以强行加入，玩家数等于 30 就不行了</li>
+</ul>
+<h2 id="开放端口号"><a href="#开放端口号" class="headerlink" title="开放端口号"></a>开放端口号</h2><p>默认端口号是 <code>19132</code>，而一些云服务器提供商默认只开放几个常用的端口号，反正不包括这个就是了，所以要自行去打开。例如我用的阿里云，需要登录管理控制台，在实例使用的安全组规则下添加这么一条：</p>
+<p><img src="https://image.zacjact1568.com/post/inst-mcbds-aliyun-open-port.jpg" alt="inst-mcbds-aliyun-open-port"></p>
+<div class="note warning">
+            <p>协议类型是 UDP，不是 TCP！官方 Wiki 上有写。</p><p>PS：Java 版服务端用的才是 TCP。</p>
+          </div>
+<p>此外，一些 Linux 发行版还自带默认开启的防火墙（例如 CentOS 7），还得自行去允许访问相应的端口号。</p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>根据教程，执行以下命令启动服务端：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo LD_LIBRARY_PATH=. ./bedrock_server</span><br></pre></td></tr></table></figure>
+<p>需要使用 <code>root</code> 身份执行，否则会报错。</p>
+<p>输出一些服务端的版本、配置信息，启动成功：</p>
+<p><img src="https://image.zacjact1568.com/post/inst-mcbds-start-server.jpg" alt="inst-mcbds-start-server"></p>
+<p>注意最下面的光标，在这个界面可以输入一些命令，例如踢出玩家、更改游戏难度等，具体见教程。</p>
+<p>打开 Minecraft 客户端，添加服务器：</p>
+<p><img src="https://image.zacjact1568.com/post/inst-mcbds-client-add-server.jpg" alt="inst-mcbds-client-add-server"></p>
+<ul>
+<li>服务器名称：可以跟服务端配置文件中 <code>server-name</code> 选项指定的不一样，但不能超过 16 个字符</li>
+<li>服务器地址：填服务器的外网 IP 地址</li>
+</ul>
+<p>保存后可以在服务器列表中找到啦（如果找不到，可以尝试下杀掉 app 重新启动）：</p>
+<p><img src="https://image.zacjact1568.com/post/inst-mcbds-client-server-list.jpg" alt="inst-mcbds-client-server-list"></p>
+<p>可以看到，显示出了服务器名称、当前在线玩家和最大玩家数，以及网络情况。</p>
+<p>下面最重要的来了，进入世界看看……（好紧张）：</p>
+<p><img src="https://image.zacjact1568.com/post/inst-mcbds-world-first-glance.jpg" alt="inst-mcbds-world-first-glance"></p>
+<p>成功啦，服务端也输出了玩家连接的信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[2019-03-29 18:22:31 INFO] Player connected: zacjact1568, xuid: 2533275013650129</span><br></pre></td></tr></table></figure>
+<p>这个 <code>xuid</code> 是玩家首次连接的时候自动生成的，相当于玩家的唯一标识符，稍后会用到。</p>
+<p>PS：可以看到程序自动在 <code>whitelist.json</code> 中添加了对应玩家的 <code>xuid</code> 字段。</p>
+<h2 id="玩家权限"><a href="#玩家权限" class="headerlink" title="玩家权限"></a>玩家权限</h2><p>玩家有三种权限，<code>operator</code>、<code>member</code> 和 <code>visitor</code>，也没在教程里找到这三种权限的具体说明，不过从名字来看应该是由高到低了。默认权限是 <code>member</code>，使用 <code>server.properties</code> 中的 <code>default-player-permission-level</code> 选项指定，也就是说，如果不在该文件中指定某个玩家的权限，那么该玩家的权限就是 <code>member</code>。但我自己玩当然要最高权限了，所以还需要配置一下。</p>
+<p>在客户端上退出服务器，然后电脑上也退出服务端程序（macOS 按 <code>⌃C</code>）。用 <code>vim</code> 打开权限配置文件 <code>permissions.json</code> 修改。我的配置如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="attr">"xuid"</span>: <span class="string">"2533275013650129"</span>,</span><br><span class="line">		<span class="attr">"permission"</span>: <span class="string">"operator"</span></span><br><span class="line">	&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>xuid</code>：在客户端连接到服务器时输出的信息中可以找到</li>
+<li><code>permission</code>：权限名，我的是最高权限 <code>operator</code></li>
+</ul>
+<h1 id="后台运行"><a href="#后台运行" class="headerlink" title="后台运行"></a>后台运行</h1><p>可以发现，启动服务端后就必须保持 SSH 连接，一旦关闭终端，会话结束，服务端进程也就随之关闭了。Minecraft 基岩版的官方服务端又没有后台执行的命令。但还有一个神器——Screen，它可以让命令在一个新的会话窗口中执行。</p>
+<p>首先，使用 <code>apt</code> 安装 Screen：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install screen</span><br></pre></td></tr></table></figure>
+<p> 使用 <code>screen</code> 命令启动一个名为 <code>mcbds</code> 的新会话窗口：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">screen -S mcbds</span><br></pre></td></tr></table></figure>
+<p>可以看到，进入了一个全新的命令行界面，像是启动了一个新的终端窗口。而还是保留了当前路径。在这个“新窗口”中输入上面的启动服务端的命令。</p>
+<p>接着按 Control + A 键（macOS 是 <code>⌃A</code>），松手（注意按完没有任何反应），再按 D 键，可以看到，又回到了原来的终端窗口，有信息输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[detached from 3307.mcbds]</span><br></pre></td></tr></table></figure>
+<p>D 指“detach”，表示暂时从这个“新窗口”中离开。</p>
+<p>现在就可以安心地使用 <code>exit</code> 命令从服务器登出了，Minecraft 服务端会借助 Screen 在后台运行。下次登录服务器，再使用以下命令恢复 <code>mcbds</code> 会话窗口：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">screen -x mcbds</span><br></pre></td></tr></table></figure>
+<p>如果想关闭这个会话窗口，退出服务端后，在该会话窗口中内执行 <code>exit</code> 即可回到原来的终端窗口，输出信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[screen is terminating]</span><br></pre></td></tr></table></figure>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://minecraft.gamepedia.com/Bedrock_Dedicated_Server" target="_blank" rel="noopener">Bedrock Dedicated Server – Official Minecraft Wiki</a></li>
+<li><a href="http://www.mcbbs.net/thread-822207-1-1.html" target="_blank" rel="noopener">Minecraft 基岩版官方服务器Alpha测试版本开服指南 - 基岩版多人联机 - Minecraft(我的世界)中文论坛 -</a></li>
+<li><a href="http://www.mcbbs.net/thread-255340-1-1.html" target="_blank" rel="noopener">Linux里的screen命令使用方法-接20步开服帖 - 基岩版多人联机 - Minecraft(我的世界)中文论坛 -</a></li>
+<li><a href="https://www.cnblogs.com/cute/p/5015852.html" target="_blank" rel="noopener">linux screen 命令详解 - zhezhelin - 博客园</a></li>
+<li><a href="http://www.mcbbs.net/thread-820742-1-1.html" target="_blank" rel="noopener">【基岩版官服】 Minecraft Bedrock Dedicated Server - 基岩版软件资源 - Minecraft(我的世界)中文论坛 -</a></li>
+</ul>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>我购买阿里云学生机的目的就是为了搭 Minecraft 服务端，买的时候想到既然自己已经把 Vultr 的服务器换成 CentOS 7 了，阿里云的也用 CentOS 7 吧，没想到要搭的时候才看到官方服务端居然说的只支持 Ubuntu……exo me？但在网上看到其他人以前发布的该网页的截图来看，“Ubuntu”原来是“Linux”，不知 Mojang 是因为何种原因只支持 Ubuntu 了。但想到不都是 Linux 发行版吗，按理来说安装起来不会有太大差别吧，然而搭的时候才发现坑多到爆炸，OpenSSL 版本低的问题解决了，又来个 glibc 和 glibcxx，看到网上说升级 glibc 很危险，但还是准备试一试，然而 configure 的时候就报错了，说很多依赖都没有，看着这一大堆 <code>no</code> 头大，心一横把系统重装成 Ubuntu 18.04 了，直接就能启动服务器了，没有任何报错，也怪不得网页上要把“FOR LINUX”改成“FOR UBUNTU”了🙄。</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>全杰是也
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zacjact1568.github.io/post/installing-minecraft-bedrock-dedicated-server-on-ubuntu-18-04.html" title="在 Ubuntu 18.04 上搭建 Minecraft 基岩版官方服务端">https://zacjact1568.github.io/post/installing-minecraft-bedrock-dedicated-server-on-ubuntu-18-04.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/post/upgrading-openssl-for-centos-7-by-compiling-source-codes.html" rel="next" title="通过编译源码为 CentOS 7 升级 OpenSSL">
+                  <i class="fa fa-chevron-left"></i> 通过编译源码为 CentOS 7 升级 OpenSSL
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#环境"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载"><span class="nav-number">2.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">2.2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开放端口号"><span class="nav-number">2.3.</span> <span class="nav-text">开放端口号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动"><span class="nav-number">2.4.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#玩家权限"><span class="nav-number">2.5.</span> <span class="nav-text">玩家权限</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后台运行"><span class="nav-number">3.</span> <span class="nav-text">后台运行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">5.</span> <span class="nav-text">后记</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.jpg"
+      alt="全杰是也">
+  <p class="site-author-name" itemprop="name">全杰是也</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="https://github.com/zacjact1568" title="GitHub &rarr; https://github.com/zacjact1568" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="mailto:zxjue@outlook.com" title="E-Mail &rarr; mailto:zxjue@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+    
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-code"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">全杰是也</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+<script src="/js/utils.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

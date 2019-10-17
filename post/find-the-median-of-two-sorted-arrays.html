@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Sans:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="这个问题来自 LeetCode 的第 4 道题 Median of Two Sorted Arrays。在这篇文章中我将给出对某个 Accepted 算法的理解。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="寻找两个有序数组的中位数">
+<meta property="og:url" content="https://zacjact1568.github.io/post/find-the-median-of-two-sorted-arrays.html">
+<meta property="og:site_name" content="全杰是也">
+<meta property="og:description" content="这个问题来自 LeetCode 的第 4 道题 Median of Two Sorted Arrays。在这篇文章中我将给出对某个 Accepted 算法的理解。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1771371-1e78ffebdeada1d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-10-17T05:07:55.948Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="寻找两个有序数组的中位数">
+<meta name="twitter:description" content="这个问题来自 LeetCode 的第 4 道题 Median of Two Sorted Arrays。在这篇文章中我将给出对某个 Accepted 算法的理解。">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1771371-1e78ffebdeada1d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  <link rel="canonical" href="https://zacjact1568.github.io/post/find-the-median-of-two-sorted-arrays">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>寻找两个有序数组的中位数 | 全杰是也</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">全杰是也</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">见证</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+        
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+    
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zacjact1568.github.io/post/find-the-median-of-two-sorted-arrays.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="全杰是也">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全杰是也">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            寻找两个有序数组的中位数
+            
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-24 00:00:00" itemprop="dateCreated datePublished" datetime="2018-06-24T00:00:00+08:00">2018-06-24</time>
+            </span>
+          
+
+          
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>5.8k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>5 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这个问题来自 <a href="https://leetcode.com" target="_blank" rel="noopener">LeetCode</a> 的第 4 道题 <a href="https://leetcode.com/problems/median-of-two-sorted-arrays/description/" target="_blank" rel="noopener">Median of Two Sorted Arrays</a>。在这篇文章中我将给出对某个 Accepted 算法的理解。</p>
+<a id="more"></a>
+<h1 id="原题"><a href="#原题" class="headerlink" title="原题"></a>原题</h1><p>There are two sorted arrays <strong>nums1</strong> and <strong>nums2</strong> of size m and n respectively.</p>
+<p>Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nums1 = [1, 3]</span><br><span class="line">nums2 = [2]</span><br><span class="line"></span><br><span class="line">The median is 2.0</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nums1 = [1, 2]</span><br><span class="line">nums2 = [3, 4]</span><br><span class="line"></span><br><span class="line">The median is (2 + 3)/2 = 2.5</span><br></pre></td></tr></table></figure>
+<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>给定两个升序排序的数组 $M$、$N$，它们分别有 $m$、$n$ 个元素，寻找这两个数组中所有数的中位数，时间复杂度要求为 $O(\log(m+n))$。</p>
+<p>设两个数组总元素个数为 $L$，则 $L$ 个数的中位数就是将这些数按序排列（升序或降序均可），如果 $L$ 为奇数，中位数是排序后的第 $\left\lceil\frac{L}{2}\right\rceil$ 个数；如果 $L$ 为偶数，中位数是排序后的第 $\frac{L}{2}$ 个数与第 $\frac{L}{2}+1$ 个数的均值。也就是说，一系列数中，比中位数小的数的个数与比中位数大的数的个数相等。</p>
+<p>看起来就很简单了，将这两个有序数组合并，然后再根据合并后的数组元素个数是奇数还是偶数，直接取特定位置的元素即可。然而这样的话，合并两个有序数组的时间复杂度达到了 $O(m+n)$，显然是不满足要求的，所以，还需要另找算法。</p>
+<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><h2 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h2><p>分析中位数的定义可知，当 $L$ 为奇数时，求中位数实际上就是求它们中第 $\left\lceil\frac{L}{2}\right\rceil$ 小的元素；当 $L$ 为偶数时，求中位数实际上就是求它们中第 $\frac{L}{2}$ 小的数与第 $\frac{L}{2}+1$ 小的数，然后求均值即可。</p>
+<p>于是，先定义合并后数组中的“中位数相关数”：当 $L$ 为奇数时，中位数相关数为第 $\left\lceil\frac{L}{2}\right\rceil$ 小的元素；当 $L$ 为偶数时，中位数相关数为第 $\frac{L}{2}$ 小的数与第 $\frac{L}{2}+1$ 小的数。因为，知道了这些数就可以立即求出中位数。</p>
+<p>因此，可以使用从两个数组中逐渐删除一些不可能是中位数相关元素的方式，设两个数组元素升序排列，删除的都是小于这些数的元素。</p>
+<p>如果能成功找到这样的数，设第 $i$ 次在某个数组中删除小于中位数相关数的某个元素，由于两个数组都是升序的，那么也就可以删除该元素之前的所有 $d_i$ 个元素，每次迭代就可以减少 $d_i$ 个元素，而如果 $d_i$ 又是与 $L$ 相关的话，肯定经过 $log$ 时间就能把小于中位数相关数的元素删除完，那么，就可以找到中位数相关数了。当然，这只是算法的一个大体思路。</p>
+<p>现在考虑怎样寻找每次迭代要删除的元素。定义一个子程序，用来寻找两个升序排序的数组中第 $k$ 小的元素 $S_k$，主程序调用这个子程序来得出结果。这个子程序接收两个升序数组 $A$、$B$ 和 $k$ 作为参数。明显，首次调用该子程序输入的 $A$、$B$ 就是 $M$、$N$，当 $L$ 为奇数，$k$ 为 $\left\lceil\frac{L}{2}\right\rceil$；当 $L$ 为偶数，调用两次子程序，$k$ 分别为 $\frac{L}{2}$ 和 $\frac{L}{2}+1$。</p>
+<p>在子程序中，比较 $A$、$B$ 第 $\left\lfloor\frac{k}{2}\right\rfloor$ 项元素 $A_k$、$B_k$，找出较小的那个，设为 $D_k$，那么 $D_k$ 及其前面的所有元素都可以被从其所在的数组中删除，因为这些数肯定是小于 $S_k$ 的，下面进行证明。</p>
+<p>当 $k$ 为奇数时，两个数组前 $\left\lfloor\frac{k}{2}\right\rfloor$ 项共有 $k-1$ 个数；当 $k$ 为偶数时，两个数组前 $\left\lfloor\frac{k}{2}\right\rfloor$ 项共有 $k$ 个数，也就是说，两个数组前 $\left\lfloor\frac{k}{2}\right\rfloor$ 项至少有 $k-1$ 个元素。由于 $A_k$、$B_k$ 中较小的那个元素 $D_k$ 最大也只能是两个数组前 $\left\lfloor\frac{k}{2}\right\rfloor$ 项元素中次大的元素了，因此，$D_k$ 肯定是小于 $S_k$ 的，又由于数组升序排列，$D_k$ 前面的元素比它还小，因此，可以将 $D_k$ 及其前面的所有元素从对应数组中删除，即删除对应数组前 $\left\lfloor\frac{k}{2}\right\rfloor$ 项元素。</p>
+<p>这样就完成了一次迭代，删除了某个数组前 $\left\lfloor\frac{k}{2}\right\rfloor$ 项元素，这些元素肯定是比 $S_k$ 小的。接下来，再求剩下的两个数组中第 $k-\left\lfloor\frac{k}{2}\right\rfloor$ 小的元素即可，也就是递归调用子程序。这样，每次迭代减少了 $\left\lfloor\frac{k}{2}\right\rfloor$ 个元素。</p>
+<p>那么，如果某一次迭代，某个数组已经不足 $\left\lfloor\frac{k}{2}\right\rfloor$ 项了怎么办呢？这种情况下，$D_k$ 直接取另一个数组第 $\left\lfloor\frac{k}{2}\right\rfloor$ 项元素即可，下面进行证明。</p>
+<p>设 $A$ 不足 $\left\lfloor\frac{k}{2}\right\rfloor$ 项。若 $S_k$ 在 $A$ 中，则 $B$ 的前 $\left\lfloor\frac{k}{2}\right\rfloor$ 项元素肯定是小于 $S_k$ 的，因为一旦有大于等于 $S_k$ 的元素，$B$ 升序排列，则 $B$ 中该元素后面的元素都是大于 $S_k$ 的了，就算 $A$ 中最大的（最后一个）元素是 $S_k$，两个数组中所有小于 $S_k$ 的元素也不足 $k$ 了，这与 $S_k$ 是两个数组中第 $k$ 小的元素矛盾。若 $S_k$ 在 $B$ 中，则 $B$ 的前 $\left\lfloor\frac{k}{2}\right\rfloor$ 项元素也肯定是小于 $S_k$ 的，也就是说 $S_k$ 一定不在 $B$ 的前 $\left\lfloor\frac{k}{2}\right\rfloor$ 项中，因为如果 $S_k$ 在 $B$ 的前 $\left\lfloor\frac{k}{2}\right\rfloor$ 项中，那么 $B$ 的前 $\left\lfloor\frac{k}{2}\right\rfloor$ 项中就有大于等于 $S_k$ 的元素，同上，有矛盾。综上所述，若 $A$ 不足 $\left\lfloor\frac{k}{2}\right\rfloor$ 项，则 $B$ 的前 $\left\lfloor\frac{k}{2}\right\rfloor$ 项元素总是是小于 $S_k$ 的，可以删除这些元素，也就是说 $D_k$ 直接取 $B$ 第 $\left\lfloor\frac{k}{2}\right\rfloor$ 项元素即可。</p>
+<p>接下来考虑结束递归的情况。当其中一个数组为空，则另一个数组第 $k$ 个元素就是 $S_k$。当 $k$ 为 1，则求两个数组中最小的元素，由于两个数组升序排列，则两个数组第一个元素较小的那个就是 $S_k$。</p>
+<h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><div class="note warning">
+            <div style="color: #f0ad4e; font-size: 1.3em; font-weight: bold">⚠️ 注意</div><p>这段可能有细节上的错误！</p>
+          </div>
+<p>由以上分析可知，子程序算法的递归式是 $T(k)=T(k-\left\lfloor\frac{k}{2}\right\rfloor)$，在算法分析中，$\left\lfloor\frac{k}{2}\right\rfloor$ 实际上就可以看成是 $\frac{k}{2}$，那么，递归式就可以写成 $T(k)=T(\frac{k}{2})+O(1)$，根据主方法，时间复杂度是 $O(\log k)$。由于在主程序算法开始的时候，根据 $L$ 是奇数还是偶数来决定 $k$，$k$ 大体等于 $\frac{L}{2}$，如果 $L$ 是奇数，调用一次子程序，如果 $L$ 是偶数，调用两次子程序。总的说来，主程序算法的时间复杂度就是 $O(\log L)$，即 $O(\log(m+n))$。</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>使用 C++ 实现该算法。</p>
+<p>首先编写用来寻找两个升序数组中第 $k$ 小元素的子程序，将该子程序定义在函数 <code>findKthSmallestNum</code> 中。该函数有 5 个参数，除了两个升序数组 <code>nums1</code> 和 <code>nums2</code>，以及 <code>k</code> 之外，还有两个数组的起始位置 <code>start1</code> 和 <code>start2</code>。因为每次迭代要删除其中一个数组的前一部分元素，使用两个起始位置来指定每次迭代在两个数组中开始的元素，就不用真的去删除元素了，也就是说，每次递归调用该函数，传入的 <code>nums1</code> 和 <code>nums2</code> 都是一样的，只是 <code>start1</code> 或 <code>start2</code> 在增长。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">findKthSmallestNum</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums1, <span class="keyword">int</span> start1, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums2, <span class="keyword">int</span> start2, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> len1 = nums1.size();</span><br><span class="line">    <span class="keyword">auto</span> len2 = nums2.size();</span><br><span class="line">    <span class="keyword">if</span> (start1 &gt;= len1) &#123;</span><br><span class="line">        <span class="comment">// 如果数组 A 为空，则数组 B 第 k 个元素就是两个数组中第 k 小的元素</span></span><br><span class="line">        <span class="keyword">return</span> nums2[start2 + k - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (start2 &gt;= len2) &#123;</span><br><span class="line">        <span class="comment">// 如果数组 B 为空，则数组 A 第 k 个元素就是两个数组中第 k 小的元素</span></span><br><span class="line">        <span class="keyword">return</span> nums1[start1 + k - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (k == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// 如果 k 为 1，则两个数组第一个元素较小的那个就是两个数组中第 k 小的元素</span></span><br><span class="line">        <span class="keyword">return</span> min(nums1[start1], nums2[start2]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 两个数组第 ⌊k/2⌋ 项元素的下标</span></span><br><span class="line">    <span class="keyword">int</span> index1 = start1 + k / <span class="number">2</span> - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> index2 = start2 + k / <span class="number">2</span> - <span class="number">1</span>;</span><br><span class="line">    <span class="comment">// 两个数组第 ⌊k/2⌋ 项元素</span></span><br><span class="line">    <span class="keyword">int</span> num1, num2;</span><br><span class="line">    <span class="keyword">if</span> (index1 &lt; len1) &#123;</span><br><span class="line">        <span class="comment">// 如果数组 A 有 ⌊k/2⌋ 项，则将该元素赋值给 num1</span></span><br><span class="line">        num1 = nums1[index1];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 如果数组 A 已经不足 ⌊k/2⌋ 项，则“删除”数组 B 前 ⌊k/2⌋ 项元素，即将 start2 增加 ⌊k/2⌋，再递归调用该函数，求两个“新”数组中第 k - ⌊k/2⌋ 小的元素</span></span><br><span class="line">        <span class="keyword">return</span> findKthSmallestNum(nums1, start1, nums2, start2 + k / <span class="number">2</span>, k - k / <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (index2 &lt; len2) &#123;</span><br><span class="line">        <span class="comment">// 如果数组 B 有 ⌊k/2⌋ 项，则将该元素赋值给 num2</span></span><br><span class="line">        num2 = nums2[index2];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 如果数组 B 已经不足 ⌊k/2⌋ 项，则“删除”数组 A 前 ⌊k/2⌋ 项元素，即将 start1 增加 ⌊k/2⌋，再递归调用该函数，求两个“新”数组中第 k - ⌊k/2⌋ 小的元素</span></span><br><span class="line">        <span class="keyword">return</span> findKthSmallestNum(nums1, start1 + k / <span class="number">2</span>, nums2, start2, k - k / <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (num1 &lt; num2) &#123;</span><br><span class="line">        <span class="comment">// 如果数组 A 第 ⌊k/2⌋ 项元素较小，“删除” 数组 A 前 ⌊k/2⌋ 项元素，即将 start1 增加 ⌊k/2⌋，再递归调用该函数，求两个“新”数组中第 k - ⌊k/2⌋ 小的元素</span></span><br><span class="line">        <span class="keyword">return</span> findKthSmallestNum(nums1, start1 + k / <span class="number">2</span>, nums2, start2, k - k / <span class="number">2</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 如果数组 B 第 ⌊k/2⌋ 项元素较小，“删除” 数组 B 前 ⌊k/2⌋ 项元素，即将 start2 增加 ⌊k/2⌋，再递归调用该函数，求两个“新”数组中第 k - ⌊k/2⌋ 小的元素</span></span><br><span class="line">        <span class="keyword">return</span> findKthSmallestNum(nums1, start1, nums2, start2 + k / <span class="number">2</span>, k - k / <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后，再编写主程序，将该主程序定义在函数 <code>findMedianSortedArrays</code> 中。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">findMedianSortedArrays</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums1, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums2)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 两个数组的元素总数</span></span><br><span class="line">    <span class="keyword">auto</span> len = nums1.size() + nums2.size();</span><br><span class="line">    <span class="keyword">double</span> result;</span><br><span class="line">    <span class="keyword">if</span> (len % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// len 为偶数，中位数为两个数组中第 len/2 小的元素和第 len/2 + 1 小的元素的均值</span></span><br><span class="line">        result = (findKthSmallestNum(nums1, <span class="number">0</span>, nums2, <span class="number">0</span>, (<span class="keyword">int</span>) len / <span class="number">2</span>) + findKthSmallestNum(nums1, <span class="number">0</span>, nums2, <span class="number">0</span>, (<span class="keyword">int</span>) len / <span class="number">2</span> + <span class="number">1</span>)) / <span class="number">2</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// len 为奇数，中位数为两个数组中第 ⌈len/2⌉ 小的元素</span></span><br><span class="line">        result = findKthSmallestNum(nums1, <span class="number">0</span>, nums2, <span class="number">0</span>, (<span class="keyword">int</span>) len / <span class="number">2</span> + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="提交结果"><a href="#提交结果" class="headerlink" title="提交结果"></a>提交结果</h1><p>这是我的 LeetCode 提交结果：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1771371-1e78ffebdeada1d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>Emmmm……很一般的样子。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/33168674" target="_blank" rel="noopener">九章算法 | Uber 面试题 : 两个排序数组的的中位数</a></li>
+</ul>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>这道题做了我好久，实在是想不出时间复杂度为 $O(\log(m+n))$ 的算法了，智商不够用……其实，看到有 $log$ 的时间复杂度，首先就想到了肯定可以用递归，但是具体怎么用，真想不出来。后来在网上找了个算法，然后考虑每一步为什么要这样做又花了我好多时间……把算法学好还有很长的路要走啊。</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>全杰是也
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zacjact1568.github.io/post/find-the-median-of-two-sorted-arrays.html" title="寻找两个有序数组的中位数">https://zacjact1568.github.io/post/find-the-median-of-two-sorted-arrays.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/post/two-ways-to-define-callbacks-for-fragments.html" rel="next" title="为 Fragment 定义事件回调的两种方式">
+                  <i class="fa fa-chevron-left"></i> 为 Fragment 定义事件回调的两种方式
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/post/implement-label-view-by-flexbox-layout.html" rel="prev" title="通过 FlexboxLayout 实现标签控件">
+                  通过 FlexboxLayout 实现标签控件 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#原题"><span class="nav-number">1.</span> <span class="nav-text">原题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题描述"><span class="nav-number">2.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#算法"><span class="nav-number">3.</span> <span class="nav-text">算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#思想"><span class="nav-number">3.1.</span> <span class="nav-text">思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间复杂度"><span class="nav-number">3.2.</span> <span class="nav-text">时间复杂度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现"><span class="nav-number">4.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#提交结果"><span class="nav-number">5.</span> <span class="nav-text">提交结果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">7.</span> <span class="nav-text">后记</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.jpg"
+      alt="全杰是也">
+  <p class="site-author-name" itemprop="name">全杰是也</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="https://github.com/zacjact1568" title="GitHub &rarr; https://github.com/zacjact1568" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="mailto:zxjue@outlook.com" title="E-Mail &rarr; mailto:zxjue@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+    
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-code"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">全杰是也</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+<script src="/js/utils.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+  
+
+  
+
+  
+
+</body>
+</html>
