@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Sans:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="我将自己 Life 网站的 Django 框架由 2.0.6 更新到 2.2.9，其中遇到了一些坑，在此记录一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django 更新记录">
+<meta property="og:url" content="https://code.zackzhang.net/post/django-upgrading-memo.html">
+<meta property="og:site_name" content="全杰是也">
+<meta property="og:description" content="我将自己 Life 网站的 Django 框架由 2.0.6 更新到 2.2.9，其中遇到了一些坑，在此记录一下。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://image.zacjact1568.com/post/dj-upgd-versions-support-time.jpg">
+<meta property="og:updated_time" content="2020-02-07T16:37:00.184Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django 更新记录">
+<meta name="twitter:description" content="我将自己 Life 网站的 Django 框架由 2.0.6 更新到 2.2.9，其中遇到了一些坑，在此记录一下。">
+<meta name="twitter:image" content="https://image.zacjact1568.com/post/dj-upgd-versions-support-time.jpg">
+  <link rel="canonical" href="https://code.zackzhang.net/post/django-upgrading-memo">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Django 更新记录 | 全杰是也</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">全杰是也</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">见证</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+        
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+    
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://code.zackzhang.net/post/django-upgrading-memo.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="全杰是也">
+      <meta itemprop="description" content="见证">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="全杰是也">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            Django 更新记录
+            
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-07 00:00:00" itemprop="dateCreated datePublished" datetime="2020-02-07T00:00:00+08:00">2020-02-07</time>
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>5 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>我将自己 Life 网站的 Django 框架由 2.0.6 更新到 2.2.9，其中遇到了一些坑，在此记录一下。 </p>
+<a id="more"></a>
+<h1 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h1><p>目前 Django 的最新版本是 3.0.4，但为什么我选择了 2.2.9 呢？在<a href="https://www.djangoproject.com/download/" target="_blank" rel="noopener">下载页面</a>可以找到如下图片：</p>
+<p><img src="https://image.zacjact1568.com/post/dj-upgd-versions-support-time.jpg" alt="dj-upgd-versions-support-time"></p>
+<p>可以看到，2.2 系列是一个 LTS（Long Term Support，长期支持）版本，可以保证在很长一段时间内都能得到官方的更新，扩展支持时间到了 2022 年。服务器软件一般是以稳定为主，因此不会去追求最新版本，如果更新这么简单，我就不会写这篇文章了。但随着时间流逝，可能会有一些新的安全问题出现，这就需要官方对此发布补丁，那么我们自然希望使用的软件版本能接受较长时间的更新支持。2.2 系列最新的子版本是 2.2.9，就它了。</p>
+<h1 id="本地"><a href="#本地" class="headerlink" title="本地"></a>本地</h1><p>我使用 Python 虚拟环境开发。进入虚拟环境，运行以下命令更新 Django：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install --upgrade Django==2.2.9</span><br></pre></td></tr></table></figure>
+<p>然而，启动 Django 时报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">django.core.management.base.SystemCheckError: SystemCheckError: System check identified some issues:</span><br><span class="line"></span><br><span class="line">ERRORS:</span><br><span class="line">?: (urls.E007) The custom handler403 view &apos;status.views.forbidden&apos; does not take the correct number of arguments (request, exception).</span><br><span class="line">?: (urls.E007) The custom handler404 view &apos;status.views.page_not_found&apos; does not take the correct number of arguments (request, exception).</span><br></pre></td></tr></table></figure>
+<p>是我自定义的 403、404 页面的两个 View 函数参数数量不对，原来只有一个 request 参数，在后面加上 exception 参数即可。</p>
+<p>成功运行。</p>
+<h1 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h1><h2 id="更新-Python"><a href="#更新-Python" class="headerlink" title="更新 Python"></a>更新 Python</h2><p>登录服务器，<code>git pull</code> 拉取代码，进入虚拟环境，更新 Django 的时候却发现报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">No matching distribution found for Django==2.2.9</span><br></pre></td></tr></table></figure>
+<p>原因是 Django 2.1 取消了对 Python 3.4 的支持，而我本地是 3.7，服务器上正是 3.4。这个很简单，我的服务器是 CentOS 7，可以通过 RPM 包管理器 yum 直接安装 3.6，执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install python36</span><br></pre></td></tr></table></figure>
+<p>这样也会将 pip 一并安装上。</p>
+<p>多说一点，由于我之前的 3.4 也是通过 yum 安装的，此次安装 3.6 并不会覆盖之前的 3.4（但是会将其升级，我的就由 3.4.9 更新到了 3.4.10，不知道这样是啥意思），只是在 <code>/usr/bin</code> 中的符号链接文件 <code>python3</code> 由 <code>python3.4</code> 指向了 <code>python3.6</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[zack@vultr ~]$ ls /usr/bin/python3* -l</span><br><span class="line">lrwxrwxrwx 1 root root     9 2月   6 06:42 /usr/bin/python3 -&gt; python3.6</span><br><span class="line">-rwxr-xr-x 2 root root 11312 10月  4 19:16 /usr/bin/python3.4</span><br><span class="line">-rwxr-xr-x 2 root root 11312 10月  4 19:16 /usr/bin/python3.4m</span><br><span class="line">-rwxr-xr-x 2 root root 11408 8月   7 2019 /usr/bin/python3.6</span><br><span class="line">-rwxr-xr-x 2 root root 11408 8月   7 2019 /usr/bin/python3.6m</span><br></pre></td></tr></table></figure>
+<p>也就是说，运行 <code>python3</code> 命令时，使用的是新的 3.6 了，实现了替换：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[zack@vultr ~]$ python3 -V</span><br><span class="line">Python 3.6.8</span><br><span class="line">[zack@vultr ~]$ python3.4 -V</span><br><span class="line">Python 3.4.10</span><br><span class="line">[zack@vultr ~]$ python3.6 -V</span><br><span class="line">Python 3.6.8</span><br></pre></td></tr></table></figure>
+<p>由于服务器上该项目的 Python 虚拟环境基于 3.4，要更新到 3.6，直接删除旧的虚拟环境，重新创建一个，重新安装各种依赖，包括更新的 Django。</p>
+<h2 id="更新-SQLite"><a href="#更新-SQLite" class="headerlink" title="更新 SQLite"></a>更新 SQLite</h2><p>在新虚拟环境中运行 <code>python manage.py collectstatic</code> 收集静态文件时，报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">django.core.exceptions.ImproperlyConfigured: SQLite 3.8.3 or later is required (found 3.7.17).</span><br></pre></td></tr></table></figure>
+<p>又是 SQLite 版本低了，查了一下，在 Django 2.2 中，SQLite 的最低支持版本由 3.7.15 增加到了 3.8.3。</p>
+<p>首先查看服务器自带的 SQLite 版本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zack@vultr ~]$ sqlite3 --version</span><br><span class="line">3.7.17 2013-05-20 00:56:22 118a3b35693b134d56ebd780123b7fd6f1497668</span><br></pre></td></tr></table></figure>
+<p>Python 调用的版本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[zack@vultr ~]$ python3</span><br><span class="line">Python 3.6.8 (default, Aug  7 2019, 17:28:10)</span><br><span class="line">[GCC 4.8.5 20150623 (Red Hat 4.8.5-39)] on linux</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line">&gt;&gt;&gt; import sqlite3</span><br><span class="line">&gt;&gt;&gt; sqlite3.sqlite_version</span><br><span class="line">&apos;3.7.17&apos;</span><br></pre></td></tr></table></figure>
+<p>可以看到，两者一致，都是 3.7.17。</p>
+<p>开始想到用 yum 更新，执行 <code>yum list sqlite</code> 检查更新，只有一个不痛不痒的小版本更新，更新完后还是 3.7.17，于是，只有一个办法，就是从源码编译安装。其实我不太喜欢这样的方式，觉得不好应对将来可能的卸载。</p>
+<p>首先下载 SQLite 源码，目前<a href="https://www.sqlite.org/download.html" target="_blank" rel="noopener">官网</a>最新版本是 3.31.1，但以防万一，还是用与本地相同的版本 3.27.2 吧。要下载旧版本，需要自己推算下载链接，例如 3.31.1 的链接是</p>
+<p><code>https://www.sqlite.org/2020/sqlite-autoconf-3310100.tar.gz</code></p>
+<p>那么 3.27.2 就是</p>
+<p><code>https://www.sqlite.org/2019/sqlite-autoconf-3270200.tar.gz</code></p>
+<p>在服务器上用 wget 下载，然后解压即可。</p>
+<p>编译前，确保已安装 gcc，若未安装，执行 <code>sudo yum install gcc</code> 安装。</p>
+<p>进入解压后的源码目录，执行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成配置文件</span></span><br><span class="line">./configure</span><br><span class="line"><span class="comment"># 编译</span></span><br><span class="line">make</span><br><span class="line"><span class="comment"># 安装</span></span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<p>此时，SQLite 被安装在了 <code>/usr/local</code> 中，其中，二进制可执行文件在 <code>bin</code> 中，动态链接库文件在 <code>lib</code> 中，头文件在 <code>include</code> 中，通过自己编译安装的软件一般都放在这里，也可在 <code>./configure</code> 的时候通过 <code>--prefix</code> 参数指定。作为对比，系统自带的 SQLite 的这些文件在 <code>/usr</code> 的对应目录中。在 <code>PATH</code> 环境变量中，<code>/usr/local/bin</code> 是默认放在 <code>/usr/bin</code> 之前的，也就是说，在执行 <code>sqlite3</code> 命令时，系统首先搜索到的是 <code>/usr/local/bin/sqlite3</code>，就会执行新安装的 SQLite。测试一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zack@vultr ~]$ sqlite3 --version</span><br><span class="line">3.27.2 2019-02-25 16:06:06 bd49a8271d650fa89e446b42e513b595a717b9212c91dd384aab871fc1d0f6d7</span><br></pre></td></tr></table></figure>
+<p>已成功更新，但查看 Python 调用的版本，会发现还是原来的 3.7.17，这是因为，Python 是通过动态链接库的方式调用 SQLite 的，而系统默认的动态链接库搜索目录只有 <code>/lilb</code> 和 <code>/usr/lib</code>，以及 <code>/etc/ld.so.conf</code> 配置文件中列出的目录，不包含 <code>/usr/local/lib</code>，所以搜索不到刚安装的 SQLite 动态链接库文件。</p>
+<p>因此，方法有两个，一是重新编译安装 Python，将 <code>/usr/local/lib</code> 添加到链接时的库搜索路径上，比如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LD_RUN_PATH=/usr/<span class="built_in">local</span>/lib ./configure LDFLAGS=<span class="string">"-L/usr/local/lib"</span> CPPFLAGS=<span class="string">"-I/usr/local/include"</span></span><br><span class="line">LD_RUN_PATH=/usr/<span class="built_in">local</span>/lib make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<p>这样编译成的 Python 就知道到该目录去搜索 SQLite 的动态链接库了。</p>
+<p>由于已经安装过 Python 了，所以我使用了第二种方法——添加系统动态链接库搜索路径。上文提到过，除 <code>/lilb</code> 和 <code>/usr/lib</code> 外，系统还会搜索 <code>/etc/ld.so.conf</code> 中存放的路径，看看它里面是什么：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zack@vultr ~]$ cat /etc/ld.so.conf</span><br><span class="line">include ld.so.conf.d/*.conf</span><br></pre></td></tr></table></figure>
+<p>指向了 <code>ld.so.conf.d</code> 目录下的 <code>conf</code> 后缀文件，这样是让每个软件的动态链接库路径存放在各自的文件中，方便管理吧。于是在该目录下新建一个 <code>local.conf</code> 文件，存放文本 <code>/usr/local/lib</code>，可简写为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo echo &quot;/usr/local/lib&quot; &gt; /etc/ld.so.conf.d/local.conf</span><br></pre></td></tr></table></figure>
+<p>然后执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ldconfig</span><br></pre></td></tr></table></figure>
+<p>该命令会刷新动态链接库临时缓冲文件 <code>/etc/ld.so.cache</code>。</p>
+<p>然后检查下是否添加成功：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[zack@vultr ~]$ ldconfig -p | grep sqlite</span><br><span class="line">	libsqlite3.so.0 (libc6,x86-64) =&gt; /usr/local/lib/libsqlite3.so.0</span><br><span class="line">	libsqlite3.so.0 (libc6,x86-64) =&gt; /lib64/libsqlite3.so.0</span><br><span class="line">	libsqlite3.so (libc6,x86-64) =&gt; /usr/local/lib/libsqlite3.so</span><br></pre></td></tr></table></figure>
+<p>完成。检查下 Python 是否调用最新的 SQLite：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[zack@vultr ~]$ python3</span><br><span class="line">Python 3.6.8 (default, Aug  7 2019, 17:28:10)</span><br><span class="line">[GCC 4.8.5 20150623 (Red Hat 4.8.5-39)] on linux</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line">&gt;&gt;&gt; import sqlite3</span><br><span class="line">&gt;&gt;&gt; sqlite3.sqlite_version</span><br><span class="line">&apos;3.27.2&apos;</span><br></pre></td></tr></table></figure>
+<p>成功！可以愉快地使用新版 Django 了。</p>
+<p>其实还有一种方式，在运行 Django 之前执行如下命令添加环境变量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=/usr/local/lib</span><br></pre></td></tr></table></figure>
+<p>但是像这样每次登录之前都要执行一次的方式似乎并不适合服务器程序。</p>
+<p>事实上，这些都在安装 SQLite 时，执行 <code>sudo make install</code> 的输出中提到过：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">----------------------------------------------------------------------</span><br><span class="line">Libraries have been installed in:</span><br><span class="line">   /usr/local/lib</span><br><span class="line"></span><br><span class="line">If you ever happen to want to link against installed libraries</span><br><span class="line">in a given directory, LIBDIR, you must either use libtool, and</span><br><span class="line">specify the full pathname of the library, or use the &apos;-LLIBDIR&apos;</span><br><span class="line">flag during linking and do at least one of the following:</span><br><span class="line">   - add LIBDIR to the &apos;LD_LIBRARY_PATH&apos; environment variable</span><br><span class="line">     during execution</span><br><span class="line">   - add LIBDIR to the &apos;LD_RUN_PATH&apos; environment variable</span><br><span class="line">     during linking</span><br><span class="line">   - use the &apos;-Wl,-rpath -Wl,LIBDIR&apos; linker flag</span><br><span class="line">   - have your system administrator add LIBDIR to &apos;/etc/ld.so.conf&apos;</span><br><span class="line"></span><br><span class="line">See any operating system documentation about shared libraries for</span><br><span class="line">more information, such as the ld(1) and ld.so(8) manual pages.</span><br><span class="line">----------------------------------------------------------------------</span><br></pre></td></tr></table></figure>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://docs.djangoproject.com/en/3.0/releases/2.1/" target="_blank" rel="noopener">Django 2.1 release notes | Django documentation | Django</a></li>
+<li><a href="https://docs.djangoproject.com/en/3.0/releases/2.2/" target="_blank" rel="noopener">Django 2.2 release notes | Django documentation | Django</a></li>
+<li><a href="http://www.djaodjin.com/blog/django-2-2-with-sqlite-3-on-centos-7.blog.html" target="_blank" rel="noopener">testing a Django 2.2 website with SQLite3 on CentOS 7 | DjaoDjin</a></li>
+<li><a href="https://www.sqlpy.com/blogs/books/2/chapters/15/articles/77" target="_blank" rel="noopener">django-2.2.4 不再支持 sqlite-3.8.3 - 蒋乐兴的玫瑰园</a></li>
+<li><a href="https://e2c.net/2019/06/21/147.html" target="_blank" rel="noopener">在CentOS7上升级SQLite，并让Python使用新版SQLite - ETOC</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/post/installing-minecraft-bedrock-dedicated-server-on-ubuntu-18-04.html" rel="next" title="在 Ubuntu 18.04 上搭建 Minecraft 基岩版官方服务端">
+                  <i class="fa fa-chevron-left"></i> 在 Ubuntu 18.04 上搭建 Minecraft 基岩版官方服务端
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#版本"><span class="nav-number">1.</span> <span class="nav-text">版本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本地"><span class="nav-number">2.</span> <span class="nav-text">本地</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#服务器"><span class="nav-number">3.</span> <span class="nav-text">服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新-Python"><span class="nav-number">3.1.</span> <span class="nav-text">更新 Python</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新-SQLite"><span class="nav-number">3.2.</span> <span class="nav-text">更新 SQLite</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.jpg"
+      alt="全杰是也">
+  <p class="site-author-name" itemprop="name">全杰是也</p>
+  <div class="site-description" itemprop="description">见证</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="https://github.com/zacjact1568" title="GitHub &rarr; https://github.com/zacjact1568" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="mailto:zxjue@outlook.com" title="E-Mail &rarr; mailto:zxjue@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+    
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-code"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">全杰是也</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+<script src="/js/utils.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
