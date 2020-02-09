@@ -63,7 +63,7 @@
 <meta property="og:description" content="我将自己 Life 网站的 Django 框架由 2.0.6 更新到 2.2.9，其中遇到了一些坑，在此记录一下。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://image.zacjact1568.com/post/dj-upgd-versions-support-time.jpg">
-<meta property="og:updated_time" content="2020-02-07T16:37:00.184Z">
+<meta property="og:updated_time" content="2020-02-09T10:47:09.269Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django 更新记录">
 <meta name="twitter:description" content="我将自己 Life 网站的 Django 框架由 2.0.6 更新到 2.2.9，其中遇到了一些坑，在此记录一下。">
@@ -311,9 +311,12 @@
 <p>此时，SQLite 被安装在了 <code>/usr/local</code> 中，其中，二进制可执行文件在 <code>bin</code> 中，动态链接库文件在 <code>lib</code> 中，头文件在 <code>include</code> 中，通过自己编译安装的软件一般都放在这里，也可在 <code>./configure</code> 的时候通过 <code>--prefix</code> 参数指定。作为对比，系统自带的 SQLite 的这些文件在 <code>/usr</code> 的对应目录中。在 <code>PATH</code> 环境变量中，<code>/usr/local/bin</code> 是默认放在 <code>/usr/bin</code> 之前的，也就是说，在执行 <code>sqlite3</code> 命令时，系统首先搜索到的是 <code>/usr/local/bin/sqlite3</code>，就会执行新安装的 SQLite。测试一下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zack@vultr ~]$ sqlite3 --version</span><br><span class="line">3.27.2 2019-02-25 16:06:06 bd49a8271d650fa89e446b42e513b595a717b9212c91dd384aab871fc1d0f6d7</span><br></pre></td></tr></table></figure>
 <p>已成功更新，但查看 Python 调用的版本，会发现还是原来的 3.7.17，这是因为，Python 是通过动态链接库的方式调用 SQLite 的，而系统默认的动态链接库搜索目录只有 <code>/lilb</code> 和 <code>/usr/lib</code>，以及 <code>/etc/ld.so.conf</code> 配置文件中列出的目录，不包含 <code>/usr/local/lib</code>，所以搜索不到刚安装的 SQLite 动态链接库文件。</p>
-<p>因此，方法有两个，一是重新编译安装 Python，将 <code>/usr/local/lib</code> 添加到链接时的库搜索路径上，比如：</p>
+<p>因此，方法有两个，一是重新编译安装 Python，将 <code>/usr/local/lib</code> 添加到链接时的库搜索路径上：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LD_RUN_PATH=/usr/<span class="built_in">local</span>/lib ./configure LDFLAGS=<span class="string">"-L/usr/local/lib"</span> CPPFLAGS=<span class="string">"-I/usr/local/include"</span></span><br><span class="line">LD_RUN_PATH=/usr/<span class="built_in">local</span>/lib make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
 <p>这样编译成的 Python 就知道到该目录去搜索 SQLite 的动态链接库了。</p>
+<div class="note info">
+            <p>事实上，由于 gcc 在编译时默认就会在 <code>/usr/local/include</code> 中搜索头文件，因此，我觉得上文命令中的 <code>CPPFLAGS=&quot;-I/usr/local/include&quot;</code> 可以不加，然而这段命令是抄来的，没测试过，也不能妄下定论。</p>
+          </div>
 <p>由于已经安装过 Python 了，所以我使用了第二种方法——添加系统动态链接库搜索路径。上文提到过，除 <code>/lilb</code> 和 <code>/usr/lib</code> 外，系统还会搜索 <code>/etc/ld.so.conf</code> 中存放的路径，看看它里面是什么：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zack@vultr ~]$ cat /etc/ld.so.conf</span><br><span class="line">include ld.so.conf.d/*.conf</span><br></pre></td></tr></table></figure>
 <p>指向了 <code>ld.so.conf.d</code> 目录下的 <code>conf</code> 后缀文件，这样是让每个软件的动态链接库路径存放在各自的文件中，方便管理吧。于是在该目录下新建一个 <code>local.conf</code> 文件，存放文本 <code>/usr/local/lib</code>，可简写为：</p>
@@ -337,6 +340,7 @@
 <li><a href="http://www.djaodjin.com/blog/django-2-2-with-sqlite-3-on-centos-7.blog.html" target="_blank" rel="noopener">testing a Django 2.2 website with SQLite3 on CentOS 7 | DjaoDjin</a></li>
 <li><a href="https://www.sqlpy.com/blogs/books/2/chapters/15/articles/77" target="_blank" rel="noopener">django-2.2.4 不再支持 sqlite-3.8.3 - 蒋乐兴的玫瑰园</a></li>
 <li><a href="https://e2c.net/2019/06/21/147.html" target="_blank" rel="noopener">在CentOS7上升级SQLite，并让Python使用新版SQLite - ETOC</a></li>
+<li><a href="https://www.jianshu.com/p/3eb25114576e" target="_blank" rel="noopener">LINUX下默认搜索头文件及库文件的路径 - 简书</a></li>
 </ul>
 
     </div>
