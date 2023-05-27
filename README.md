@@ -1,9 +1,7 @@
-# My Website (Code)
+# Code
 
-<img src="favicon.ico" align="right"/>
+<img src="content/favicon.ico" align="right" />
 
-This is the repository of my website (Code).
+The repository of my Code website, using [Hugo](https://gohugo.io/) static site generator.
 
-🔗 https://code.zackzhang.net
-
-
+Check it out: https://code.zackzhang.net

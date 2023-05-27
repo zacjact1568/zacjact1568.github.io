@@ -1,0 +1,38 @@
+baseURL: https://code.zackzhang.net/
+languageCode: zh-cn
+title: Code
+theme: code-website-theme-papermod
+defaultcontentlanguage: zh-cn
+params:
+  author: Zack Zhang
+  description: Zack's code website
+  keywords:
+    - code
+    - blog
+    - developer
+  since: 2017
+  defaultTheme: auto
+  disableThemeToggle: true
+  hidePoweredBy: true
+  hideAuthor: true
+  archiveMonthFormat: Jan
+  dateFormat: 2006-01-02
+  disableSpecial1stPost: true
+  showtoc: true
+  homeInfoParams:
+    title: Zack Zhang
+    content: Android Developer & Full Stack Learner
+  socialIcons:
+    - name: github
+      url: https://github.com/zacjact1568/
+    - name: email
+      url: mailto:zxjue@outlook.com
+  titleDivider: "-"
+menu:
+  main:
+    - name: Timeline
+      weight: 1
+      url: timeline/
+    - name: About
+      weight: 2
+      url: about/
