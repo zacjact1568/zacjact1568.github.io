@@ -8,13 +8,13 @@ date: 2018-02-13
 
 这篇文章介绍下怎样使用 RxJava 配合 Retrofit，实现需要等待多个数据源请求完成后，才能执行下一步操作的需求。
 
-<!-- more -->
+<!--more-->
 
-% note info %}
+{{< notice info >}}
 
 本文使用的编程语言为 Kotlin
 
-% endnote %}
+{{< /notice >}}
 
 # 需求
 

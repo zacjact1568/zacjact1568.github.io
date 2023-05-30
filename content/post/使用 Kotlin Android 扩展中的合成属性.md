@@ -8,7 +8,7 @@ Kotlin 当前最主要的应用就是 Android 应用程序开发了吧，毕竟�
 
 这篇文章介绍下 Kotlin Android 扩展中的合成属性。
 
-<!-- more -->
+<!--more-->
 
 # 介绍
 

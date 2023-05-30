@@ -6,7 +6,7 @@ date: 2019-03-30
 
 这篇文章介绍了我在 Ubuntu 18.04 上搭建官方的 Minecraft 基岩版服务端（Minecraft Bedrock Dedicated Server）的过程。
 
-<!-- more -->
+<!--more-->
 
 {{< notice warning >}}
 

@@ -6,13 +6,13 @@ date: 2018-04-21
 
 在 Android 中使用 Fragment 时，我们常常会在 Fragment 中定义一些按钮监听之类的事件。在我看来，为 Fragment 中的事件定义回调函数有两种方式，一种是实现接口，另一种是传递函数类型（Kotlin）或匿名内部类（Java）。前一种较为简单，也是[官方教程](https://developer.android.com/training/basics/fragments/communicating.html)中提到的方式，后一种因为考虑到 Activity 重建的问题，有一些需要注意的地方。这篇文章介绍了这两种方式。
 
-<!-- more -->
+<!--more-->
 
-% note info %}
+{{< notice info >}}
 
 本文使用的编程语言为 Kotlin
 
-% endnote %}
+{{< /notice >}}
 
 # Fragment 在 Activity 重建时的行为
 
@@ -119,11 +119,11 @@ class ExampleFragment : Fragment() {
 
 那么怎样才能使用属性赋值的方式向 Fragment 传递事件的回调函数呢？可以从传递的时机下手。如果只是在新建 Fragment 的时候传递，那么当然 Activity 重建后 Fragment 就没法调用回调函数了。那如果在每次 Fragment 附到 Activity 或父 Fragment 的时候传递呢，这样不就行了。基于此，我找到了一个很有用的回调函数，它就是 `onAttachFragment`，看下此函数的[文档](https://developer.android.com/reference/android/support/v4/app/FragmentActivity.html#onAttachFragment(android.support.v4.app.Fragment))（以 `android.support.v4.app.FragmentActivity` 中的为例）：
 
-% note default %}
+{{< notice note >}}
 
 Called when a fragment is attached to the activity.
 
-% endnote %}
+{{< /notice >}}
 
 也就是说，当 Fragment 附着到 Activity 上时会调用此函数，而此函数的参数就是附着到 Activity 上的那个 Fragment，这不正是我们想要的吗。所以，就可以在这个函数中向 Fragment 传递事件的回调函数了，以 `MainActivity` 为例：
 
@@ -148,11 +148,11 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
-% note warning %}
+{{< notice warning >}}
 
 注意，这里的例子是 Fragment 继承于 `android.support.v4.app.Fragment` 的情况，`onAttachFragment` 也是重写 `android.support.v4.app.FragmentActivity` 的（其参数类型是 `android.support.v4.app.Fragment`），而如果 Fragment 继承于 `android.app.Fragment` 的话，需要重写 `android.app.Activity` 中的 `onAttachFragment`（其参数类型是 `android.app.Fragment`）。
 
-% endnote %}
+{{< /notice >}}
 
 在 Fragment 中也有 `onAttachFragment` 函数，只是其参数名为 `childFragment`，当某个 Fragment 作为子 Fragment 附在此 Fragment 上时会调用。创建 Fragment 的时候也需要使用 `childFragmentManager` 而不是 `fragmentManager`。
 

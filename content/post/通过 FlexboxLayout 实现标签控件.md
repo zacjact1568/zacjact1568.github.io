@@ -6,7 +6,7 @@ date: 2018-08-21
 
 写过前端的人一定不会对 CSS 3 中的[弹性盒子布局](https://www.w3.org/TR/css-flexbox-1)（Flexible Box Layout）陌生吧。这篇文章介绍了如何在 Android 中使用 Google 推出的 [FlexboxLayout](https://github.com/google/flexbox-layout) 实现标签控件。
 
-<!-- more -->
+<!--more-->
 
 {{< notice info >}}
 

@@ -8,7 +8,7 @@ R-CNN 是一个目标检测系统，来源于 Ross Girshick 和他的团队在 2
 
 这是一篇记录 R-CNN 安装过程的文章。
 
-<!-- more -->
+<!--more-->
 
 {{< notice warning >}}
 
