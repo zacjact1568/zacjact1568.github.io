@@ -41,3 +41,7 @@ module:
     - source: content
       target: content
       excludeFiles: post/_original/*
+markup:
+    goldmark:
+        renderer:
+            unsafe: true
