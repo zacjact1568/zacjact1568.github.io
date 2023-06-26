@@ -97,11 +97,11 @@ import kotlinx.android.synthetic.main.<布局文件名>.*
 
 要想看看 Kotlin Android 扩展在编译时期做了什么工作，最好的方式就是查看编译成的字节码，从 Tools | Kotlin | Show Kotlin Bytecode 打开查看字节码的窗口，如图：
 
-![](http://upload-images.jianshu.io/upload_images/1771371-142a6e530f8b25d9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![kotlin-bytecode](https://image.zacjact1568.com/blog/post/kae-sp/kotlin-bytecode.jpg&post)
 
 右边就是编译成的字节码，然而这只有大神才看得懂了，反正我是看不懂。所以点击 Kotlin Bytecode 窗口左上角的 Decompile 按钮，将字节码再反编译成 Java 代码：
 
-![](http://upload-images.jianshu.io/upload_images/1771371-5b0cb88be5f68054.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![decompiled](https://image.zacjact1568.com/blog/post/kae-sp/decompiled.jpg&post)
 
 这样就看得懂了。找到使用合成属性 `vTitleText` 的地方：
 

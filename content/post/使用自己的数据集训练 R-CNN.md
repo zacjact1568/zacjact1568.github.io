@@ -12,8 +12,6 @@ date: 2017-04-01
 
 {{< notice warning >}}
 
-<div style="color: #f0ad4e; font-size: 1.3em; font-weight: bold">⚠️ 注意</div>
-
 虽然下述内容在我的电脑上测试通过，但是由于此文章是我在做毕业设计期间撰写的，时间紧迫，未能考虑到所有情况，仅是做记录使用，因此下述内容不一定适用于每个人，如果发现错误，请求助于其他博客，敬请留意！
 
 {{< /notice >}}
@@ -54,7 +52,7 @@ copy /b img_celeba.7z.* img_celeba.7z
 
 我以前有下过 PASCAL VOC 2007 数据集，先用 `tree -d` 命令看下目录结构吧：
 
-![PASCAL VOC 2007 数据集结构](http://upload-images.jianshu.io/upload_images/1771371-f0091bb3f2535c8f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![pv-dataset-structure](https://image.zacjact1568.com/blog/post/train-rcnn/pv-dataset-structure.jpg&post)
 
 接下来仿照此结构，构建自己的数据集。
 
@@ -104,7 +102,7 @@ Invalid file identifier.  Use fopen to generate a valid file identifier.
 
 PASCAL VOC 2007 数据集中包含 20 类图片，但是我只需要检测一类，就是人脸，所以到底使用多少张图片合适呢？我自己写了个 Python 脚本，读取 `Annotations` 文件夹中的 xml 文件分析了一下每个类型在所有图片中出现的次数，结果如图：
 
-![每个类型出现的次数](http://upload-images.jianshu.io/upload_images/1771371-efb95ccbb5a61169.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![pv-count-per-category](https://image.zacjact1568.com/blog/post/train-rcnn/pv-count-per-category.jpg&post)
 
 感觉每个类型出现的次数也不多，那我就选 CelebA 数据集中前 1000 张图片吧，应该够用了。把 CelebA 数据集中文件名为 `000001.jpg` 到 `001000.jpg` 的图片放到 `VOCdevkit/VOC2007/JPEGImages` 里。
 
@@ -413,23 +411,23 @@ $ GLOG_logtostderr=1 ../../build/tools/finetune_net.bin pascal_finetune_solver.p
 
 刚开始的时候就会执行一次测试：
 
-![刚开始的测试结果](http://upload-images.jianshu.io/upload_images/1771371-0a82b1612b42f11c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![result-early](https://image.zacjact1568.com/blog/post/train-rcnn/result-early.jpg&post)
 
 其中，`Test score #0` 是准确度（accuracy），`Test score #1` 是损失函数（loss）。可见，刚开始的时候准确度较低、损失较大。
 
 根据设置，每迭代 500 次后会测试一次：
 
-![迭代 500 次后的测试结果](http://upload-images.jianshu.io/upload_images/1771371-ccd1f6cffac4bfbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![result-500-iters](https://image.zacjact1568.com/blog/post/train-rcnn/result-500-iters.jpg&post)
 
 这一次准确度打到了 0.974，提高了不少，损失函数也降到比较小了。迭代 1000 次后会保存一次快照：
 
-![迭代 1000 次后会保存一次快照](http://upload-images.jianshu.io/upload_images/1771371-2abe97c3547a344a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![result-1k-iters](https://image.zacjact1568.com/blog/post/train-rcnn/result-1k-iters.jpg&post)
 
 其中，`finetune_voc_2007_trainval_iter_1000` 就是迭代 1000 次的 Caffe 模型，`finetune_voc_2007_trainval_iter_1000.solverstate` 是保存的 solver 状态，使用此文件可以恢复中断的训练。
 
 花费了接近 12 个小时，2 万次迭代的训练终于完成了：
 
-![训练完成](http://upload-images.jianshu.io/upload_images/1771371-0a465ddf4df729e8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![result-finished](https://image.zacjact1568.com/blog/post/train-rcnn/result-finished.jpg&post)
 
 在当前目录（`rcnn/external/caffe/examples/pascal-finetuning`）下生成了一系列 `finetune_voc_2007_trainval_iter_*` 和 `finetune_voc_2007_trainval_iter_*.solverstate` 文件，这些就是每迭代 1000 次保存的快照，其中 `finetune_voc_2007_trainval_iter_20000` 就是最终的模型了。
 
@@ -472,7 +470,7 @@ $ ./plot_training_log.py.example 0 test_accuracy_vs_iters.png log.txt
 
 显示绘制结果：
 
-![准确度随迭代次数变化的曲线图](http://upload-images.jianshu.io/upload_images/1771371-b7c47dabf973c30a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![result-accuracy-vs-iters-curve](https://image.zacjact1568.com/blog/post/train-rcnn/result-accuracy-vs-iters-curve.jpg&post)
 
 同时，图片会以指定的文件名保存在当前目录。
 
@@ -507,13 +505,13 @@ $ ./plot_training_log.py.example 0 test_accuracy_vs_iters.png log.txt
 
 在测试结束时，程序绘制出准确率/召回率（precision/recall）曲线（关于准确率和召回率，看[这里](http://blog.sina.com.cn/s/blog_4b59de070100ehl7.html)）和平均精度（average precision，AP）：
 
-![对检测的评估](http://upload-images.jianshu.io/upload_images/1771371-710539bed53db8d4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![result-pr-curve](https://image.zacjact1568.com/blog/post/train-rcnn/result-pr-curve.jpg&post)
 
 这张图片保存在 `rcnn/cachedir/voc_2007_test` 下，文件名为 `face_pr_voc_2007_test.jpg`。
 
 最终，Command Window 输出测试结果：
 
-![测试结果](http://upload-images.jianshu.io/upload_images/1771371-2fa6c4b2e0f244bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![result-values](https://image.zacjact1568.com/blog/post/train-rcnn/result-values.jpg&post)
 
 从上到下依次为召回率（`recall`）、准确率（`prec`）、平均精度（`ap`），最后一个 `ap_auc` 我也不清楚是什么 😑。
 
@@ -581,7 +579,7 @@ fprintf('No more detection with score >= 0\n');
 
 检测了一张我弟的照片（未成年人，脸部后期做了屏蔽处理），结果如下：
 
-![检测结果](http://upload-images.jianshu.io/upload_images/1771371-516e91f945b4f959.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![result-brother](https://image.zacjact1568.com/blog/post/train-rcnn/result-brother.jpg&post)
 
 之后又陆陆续续测试了几张图片，发现有些不太清楚的人脸还是识别不出来，当然，检测的过程还很慢（大概几十秒的样子），不过这是 R-CNN 的硬伤了，想要更快的？去找 [Fast R-CNN](https://github.com/rbgirshick/fast-rcnn) 和 [Faster R-CNN](https://github.com/rbgirshick/py-faster-rcnn) 吧。
 

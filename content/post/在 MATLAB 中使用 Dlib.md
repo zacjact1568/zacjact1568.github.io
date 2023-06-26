@@ -245,7 +245,7 @@ $ cmake --build . --config release
 
 部分输出如下：
 
-![部分输出](http://upload-images.jianshu.io/upload_images/1771371-1ffee2c49ed737e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![example](https://image.zacjact1568.com/blog/post/ml-dlib/example.jpg&post)
 
 说明成功在 MATLAB 中调用了 C++。
 

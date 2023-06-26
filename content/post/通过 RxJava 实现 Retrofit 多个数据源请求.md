@@ -116,7 +116,7 @@ interface HeWeatherService {
 
 看看 `Observable.zip` 的文档：
 
-![](http://upload-images.jianshu.io/upload_images/1771371-c5083a85e05f0d94.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![zip-document](https://image.zacjact1568.com/blog/post/mul-req/zip-document.jpg&post)
 
 我还是第一次看到有图的文档，感觉国外开发者写文档都好认真。可以看出，`zip` 方法的第三个参数 `zipper` 是一个回调函数，其参数是请求成功后获取的两个对象，需要在函数中将这两个对象合并成一个新的对象返回。事实上，Zip 操作符可以依次合并两个 Observable 发出的多个事件，然后依次执行 `onNext` 方法。
 

@@ -12,8 +12,6 @@ R-CNN 是一个目标检测系统，来源于 Ross Girshick 和他的团队在 2
 
 {{< notice warning >}}
 
-<div style="color: #f0ad4e; font-size: 1.3em; font-weight: bold">⚠️ 注意</div>
-
 虽然下述内容在我的电脑上测试通过，但是自此文章发表到现在已经有很长一段时间了，由于电脑配置、软件版本等的差异，下述内容不一定适用于每个人，如果发现错误，请求助于其他博客，敬请留意！
 
 {{< /notice >}}
@@ -79,7 +77,7 @@ $ lspci | grep -i nvidia
 
 [下载](https://developer.nvidia.com/cuda-downloads)安装包，最后 Installer Type 选择 runfile (local) 即可。
 
-![下载 CUDA](http://upload-images.jianshu.io/upload_images/1771371-2042976d19da84f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![cuda-download](https://image.zacjact1568.com/blog/post/inst-rcnn/cuda-download.jpg&post)
 
 我下载的文件名是 `cuda_8.0.61_375.26_linux.run`。
 
@@ -228,7 +226,7 @@ $ ./deviceQuery
 
 如果看到显卡的一些信息
 
-![deviceQuery 的执行结果](http://upload-images.jianshu.io/upload_images/1771371-11633475d2f3c379.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![cuda-device-query-execution-result](https://image.zacjact1568.com/blog/post/inst-rcnn/cuda-device-query-execution-result.jpg&post)
 
 说明 CUDA 安装成功。
 
@@ -246,7 +244,7 @@ Caffe 选用 CPU 模式的话，可以跳过这部分。
 
 在官网[下载](https://developer.nvidia.com/rdp/cudnn-download) cuDNN，需要注册账号才能下载。
 
-![下载 cuDNN](http://upload-images.jianshu.io/upload_images/1771371-3e706f6b8ae29fab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![cudnn-download](https://image.zacjact1568.com/blog/post/inst-rcnn/cudnn-download.jpg&post)
 
 我下载的文件名是 `cudnn-8.0-linux-x64-v5.1.tgz`。
 
@@ -277,7 +275,7 @@ Caffe 需要使用 BLAS，官网上推荐了三种实现：ATLAS、Intel MKL 和
 
 在[官网](https://software.intel.com/en-us/qualify-for-free-software)申请学生版（Student）或社区版（Community）的许可证，学生版需要使用学校邮箱，社区版随便什么邮箱（我用的是 126）。申请完成后，Intel 会发来一封邮件，邮件里有个 Download 按钮和一串激活码，点击 Download 按钮应该就可以跳到下载页面了，选择 Linux 的 MKL 下载。
 
-![下载 MKL](http://upload-images.jianshu.io/upload_images/1771371-90f915fd635ce57a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![mkl-download](https://image.zacjact1568.com/blog/post/inst-rcnn/mkl-download.jpg&post)
 
 我下载的版本是 2017 Initial Release，文件名是 `l_mkl_2017.0.098.tgz`，现在最新的版本是 2017 Update 2。
 
@@ -296,13 +294,13 @@ $ sudo ./install.sh
 
 按照给出的提示一步步安装就行了，中途会提示激活，输入发到邮箱里的 serial number：
 
-![输入 serial number](http://upload-images.jianshu.io/upload_images/1771371-d4d5bd8818b267be.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![mkl-input-serial-number](https://image.zacjact1568.com/blog/post/inst-rcnn/mkl-input-serial-number.jpg&post)
 
 回车，等一会儿就会提示激活成功啦。然后继续安装。
 
 出现下面这个界面，说明安装成功了。
 
-![安装成功](http://upload-images.jianshu.io/upload_images/1771371-1aac68e75fa8f891.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![mkl-installation-completed](https://image.zacjact1568.com/blog/post/inst-rcnn/mkl-installation-completed.jpg&post)
 
 接着还要指定 MKL 动态链接库的路径。执行
 
@@ -613,7 +611,7 @@ $ make runtest -j8
 
 大功告成！
 
-![make runtest 成功](http://upload-images.jianshu.io/upload_images/1771371-559906fc079c5dd5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![caffe-make-runtest](https://image.zacjact1568.com/blog/post/inst-rcnn/caffe-make-runtest.jpg&post)
 
 最后有一行 `YOU HAVE 2 DISABLED TESTS`，可以忽略掉。
 
@@ -637,7 +635,7 @@ $ locate pyconfig.h
 
 查看一下哪儿有这个文件，结果如图所示
 
-![pyconfig.h 文件的位置](http://upload-images.jianshu.io/upload_images/1771371-336654a6d6e1ed89.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![pyconfig-location](https://image.zacjact1568.com/blog/post/inst-rcnn/pyconfig-location.jpg&post)
 
 重要的东西在第二行，这个文件应该是在 `/usr/include/python2.7` 下的，需要修改下 `Makefile.config` 文件中 Python 的相关路径，执行
 
@@ -681,7 +679,7 @@ $ source ~/.bashrc
 
 如果没有报错，那么 Caffe 的 Python 接口就配置完成了：
 
-![在 Python 中使用 Caffe](http://upload-images.jianshu.io/upload_images/1771371-e14597cea5c4076c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![caffe-python](https://image.zacjact1568.com/blog/post/inst-rcnn/caffe-python.jpg&post)
 
 #### 编译 MATLAB 接口
 
@@ -758,7 +756,7 @@ $ ./train_lenet.sh
 
 训练了 7 分多钟，结果如下图所示：
 
-![训练结果](http://upload-images.jianshu.io/upload_images/1771371-12189228201abc40.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![caffe-train-result](https://image.zacjact1568.com/blog/post/inst-rcnn/caffe-train-result.jpg&post)
 
 可以看到，最终的训练精度是 0.9905。最终的模型储存为当前目录下的一个二进制 protobuf 文件 `lenet_iter_10000`。
 
@@ -819,7 +817,7 @@ $ ln -sf <到Caffe文件夹的路径>/caffe-0.999 external/caffe
 
 然后就会有下载 Selective Search 的提示
 
-![提示下载 Selective Search](http://upload-images.jianshu.io/upload_images/1771371-be8590babc197e1d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![selective-search-download-prompt](https://image.zacjact1568.com/blog/post/inst-rcnn/selective-search-download-prompt.jpg&post)
 
 按任意键执行下载。下载完成后，看到有显示 `R-CNN startup done`，说明 R-CNN 在 MATLAB 中启动完成。接着执行
 
@@ -875,7 +873,7 @@ $ sudo ln -sf /usr/lib/x86_64-linux-gnu/libfreetype.so.6 /usr/local/MATLAB/R2014
 
 成功了！显示 `key = -2` 就好，如图：
 
-![正确设置 Caffe 及其 MATLAB 接口](http://upload-images.jianshu.io/upload_images/1771371-4902ce187fea99a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![caffe-matlab](https://image.zacjact1568.com/blog/post/inst-rcnn/caffe-matlab.jpg&post)
 
 ## 进行测试
 
@@ -905,15 +903,15 @@ $ tar zxvf r-cnn-release1-selective-search.tgz
 
 运行 demo。根据提示，按任意键继续。
 
-![运行 demo](http://upload-images.jianshu.io/upload_images/1771371-64ca390aafd34b30.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![rcnn-demo](https://image.zacjact1568.com/blog/post/inst-rcnn/rcnn-demo.jpg&post)
 
 执行到这里，人应该已经检测出来了，显示如下窗口：
 
-![检测结果：人](http://upload-images.jianshu.io/upload_images/1771371-197eefc85319176b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![rcnn-detectation-result-person](https://image.zacjact1568.com/blog/post/inst-rcnn/rcnn-detectation-result-person.jpg&post)
 
 再按回车键，窗口中的内容替换为检测到的自行车：
 
-![检测结果：自行车](http://upload-images.jianshu.io/upload_images/1771371-fc05fb8ff8249331.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![rcnn-detectation-result-bicycle](https://image.zacjact1568.com/blog/post/inst-rcnn/rcnn-detectation-result-bicycle.jpg&post)
 
 再按回车键，MATLAB 的 Command Window 中显示 `No more detection with score >= 0`，说明没有得分大于等于 0 的物体了，检测完毕。
 
