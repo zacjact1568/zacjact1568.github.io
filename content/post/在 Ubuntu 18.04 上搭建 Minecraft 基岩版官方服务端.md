@@ -10,8 +10,6 @@ date: 2019-03-30
 
 {{< notice warning >}}
 
-<div style="color: #f0ad4e; font-size: 1.3em; font-weight: bold">⚠️ 注意</div>
-
 请务必使用 Ubuntu 18.04（或更高版本，未测试），其他 Linux 发行版理论上也行，只是会有很多坑，别问我为什么知道。
 
 {{< /notice >}}
