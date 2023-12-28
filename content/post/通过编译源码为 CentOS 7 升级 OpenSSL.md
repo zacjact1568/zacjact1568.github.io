@@ -34,7 +34,7 @@ date: 2019-03-23
 yum list updates | grep openssl
 ```
 
-![upgd-ossl-yum-list-update](https://image.zacjact1568.com/post/upgd-ossl-yum-list-update.jpg)
+![upgd-ossl-yum-list-update](https://image.zacjact1568.com/post/upgd-ossl-yum-list-update.jpg&post)
 
 可以看到，软件库中支持的最高版本就是 `1.0.2k` 了，因此只能自己下载源码编译安装。
 

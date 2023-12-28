@@ -26,7 +26,7 @@ date: 2019-03-30
 
 打开官方服务端的下载[页面](https://www.minecraft.net/zh-hans/download/server/bedrock/)：
 
-![inst-mcbds-download-page](https://image.zacjact1568.com/post/inst-mcbds-download-page.jpg)
+![inst-mcbds-download-page](https://image.zacjact1568.com/post/inst-mcbds-download-page.jpg&post)
 
 右边是 Ubuntu 的服务端。勾选同意协议后，右键下载按钮拷贝链接，写这篇文章时的最新版本为 1.10.0.7。
 
@@ -34,7 +34,7 @@ date: 2019-03-30
 
 请留意 Minecraft 客户端的大版本是否与下载的一致，客户端版本在主界面右下角：
 
-![inst-mcbds-client-version](https://image.zacjact1568.com/post/inst-mcbds-client-version.jpg)
+![inst-mcbds-client-version](https://image.zacjact1568.com/post/inst-mcbds-client-version.jpg&post)
 
 如果客户端版本高于服务器，在连接服务器的时候会提示“无法连接：过期的服务器”。
 
@@ -79,7 +79,7 @@ unzip bedrock-server-1.10.0.7.zip
 
 默认端口号是 `19132`，而一些云服务器提供商默认只开放几个常用的端口号，反正不包括这个就是了，所以要自行去打开。例如我用的阿里云，需要登录管理控制台，在实例使用的安全组规则下添加这么一条：
 
-![inst-mcbds-aliyun-open-port](https://image.zacjact1568.com/post/inst-mcbds-aliyun-open-port.jpg)
+![inst-mcbds-aliyun-open-port](https://image.zacjact1568.com/post/inst-mcbds-aliyun-open-port.jpg&post)
 
 {{< notice warning >}}
 
@@ -103,26 +103,26 @@ sudo LD_LIBRARY_PATH=. ./bedrock_server
 
 输出一些服务端的版本、配置信息，启动成功：
 
-![inst-mcbds-start-server](https://image.zacjact1568.com/post/inst-mcbds-start-server.jpg)
+![inst-mcbds-start-server](https://image.zacjact1568.com/post/inst-mcbds-start-server.jpg&post)
 
 注意最下面的光标，在这个界面可以输入一些命令，例如踢出玩家、更改游戏难度等，具体见教程。
 
 打开 Minecraft 客户端，添加服务器：
 
-![inst-mcbds-client-add-server](https://image.zacjact1568.com/post/inst-mcbds-client-add-server.jpg)
+![inst-mcbds-client-add-server](https://image.zacjact1568.com/post/inst-mcbds-client-add-server.jpg&post)
 
 - 服务器名称：可以跟服务端配置文件中 `server-name` 选项指定的不一样，但不能超过 16 个字符
 - 服务器地址：填服务器的外网 IP 地址
 
 保存后可以在服务器列表中找到啦（如果找不到，可以尝试下杀掉 app 重新启动）：
 
-![inst-mcbds-client-server-list](https://image.zacjact1568.com/post/inst-mcbds-client-server-list.jpg)
+![inst-mcbds-client-server-list](https://image.zacjact1568.com/post/inst-mcbds-client-server-list.jpg&post)
 
 可以看到，显示出了服务器名称、当前在线玩家和最大玩家数，以及网络情况。
 
 下面最重要的来了，进入世界看看……（好紧张）：
 
-![inst-mcbds-world-first-glance](https://image.zacjact1568.com/post/inst-mcbds-world-first-glance.jpg)
+![inst-mcbds-world-first-glance](https://image.zacjact1568.com/post/inst-mcbds-world-first-glance.jpg&post)
 
 成功啦，服务端也输出了玩家连接的信息：
 

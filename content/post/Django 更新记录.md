@@ -12,7 +12,7 @@ date: 2020-02-07
 
 目前 Django 的最新版本是 3.0.4，但为什么我选择了 2.2.9 呢？在[下载页面](https://www.djangoproject.com/download/)可以找到如下图片：
 
-![dj-upgd-versions-support-time](https://image.zacjact1568.com/post/dj-upgd-versions-support-time.jpg)
+![dj-upgd-versions-support-time](https://image.zacjact1568.com/post/dj-upgd-versions-support-time.jpg&post)
 
 可以看到，2.2 系列是一个 LTS（Long Term Support，长期支持）版本，可以保证在很长一段时间内都能得到官方的更新，扩展支持时间到了 2022 年。服务器软件一般是以稳定为主，因此不会去追求最新版本，如果更新这么简单，我就不会写这篇文章了。但随着时间流逝，可能会有一些新的安全问题出现，这就需要官方对此发布补丁，那么我们自然希望使用的软件版本能接受较长时间的更新支持。2.2 系列最新的子版本是 2.2.9，就它了。
 

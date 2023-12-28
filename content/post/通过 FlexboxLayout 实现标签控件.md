@@ -18,7 +18,7 @@ date: 2018-08-21
 
 在设计 Cold 的关于界面时，想到需要将使用到的服务或开源库列出来。觉得使用列表的方式不好看，看到很多 app 和网站中热门标签的设计，想到可以使用标签的方式来呈现，就在 Sketch 上画好了（我只是个 UI 设计小白）：
 
-![lv-fbl-design](https://image.zacjact1568.com/post/lv-fbl-design.jpg)
+![lv-fbl-design](https://image.zacjact1568.com/post/lv-fbl-design.jpg&post)
 
 高亮的这一块，就是标签控件了，那么如何来实现呢？
 
@@ -165,7 +165,7 @@ vLibraryLabel.addItemDecoration(libraryItemDecoration)
 
 搞定啦：
 
-![lv-fbl-result](https://image.zacjact1568.com/post/lv-fbl-result.jpg)
+![lv-fbl-result](https://image.zacjact1568.com/post/lv-fbl-result.jpg&post)
 
 **Bonus：为标签设置水波纹触摸效果**
 

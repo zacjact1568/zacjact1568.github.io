@@ -14,7 +14,7 @@ macOS Mojave（10.14）在带来了黑暗模式（dark mode）的同时，也带
 
 Dynamic Wallpaper Club 上有一些用户分享的很不错的动态墙纸，[Licancabur](https://dynamicwallpaper.club/wallpaper/rzeg18a2re) 就是我很喜欢的一套，其中只包含两张墙纸，白天（左）和黑夜（右）：
 
-![mac-dm-dwc-licancabur](https://image.zacjact1568.com/post/mac-dm-dwc-licancabur.jpg)
+![mac-dm-dwc-licancabur](https://image.zacjact1568.com/post/mac-dm-dwc-licancabur.jpg&post)
 
 {{< notice info >}}
 
@@ -24,7 +24,7 @@ Licancabur（利坎卡武尔）是智利与玻利维亚交界处的一座火山�
 
 动态墙纸是 HEIC 格式的，里面包含有多张图片，可使用“预览”app 打开。这是从 Dynamic Wallpaper Club 下载的 Licancabur.heic：
 
-![mac-dm-show-in-preview](https://image.zacjact1568.com/post/mac-dm-show-in-preview.jpg)
+![mac-dm-show-in-preview](https://image.zacjact1568.com/post/mac-dm-show-in-preview.jpg&post)
 
 左侧栏里就是这套动态墙纸中的所有墙纸了（不知道为什么黑夜墙纸有两张）。
 
@@ -34,7 +34,7 @@ Licancabur（利坎卡武尔）是智利与玻利维亚交界处的一座火山�
 
 尝试了 Dynamic Wallpaper Club 在线制作：
 
-![mac-dm-dwc-creation](https://image.zacjact1568.com/post/mac-dm-dwc-creation.jpg)
+![mac-dm-dwc-creation](https://image.zacjact1568.com/post/mac-dm-dwc-creation.jpg&post)
 
 上图左侧可以看到，制作选项只有两个，Sun 和 Time，我选择了 Time，再在右侧选择 Light 和 Dark 墙纸，分别对应黑暗模式的关和开，可还是要选择 Time，我要的动态墙纸是跟时间无关的，所以就全填了 00:00。然而测试表明，这样的配置并不能实现想要的效果，墙纸并不会随着黑暗模式的开关而切换。
 
