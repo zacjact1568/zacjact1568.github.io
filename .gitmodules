@@ -1,6 +1,0 @@
-[submodule "themes/code-website-theme-coder"]
-	path = themes/code-website-theme-coder
-	url = git@github.com:zacjact1568/code-website-theme-coder.git
-[submodule "themes/code-website-theme-papermod"]
-	path = themes/code-website-theme-papermod
-	url = git@github.com:zacjact1568/code-website-theme-papermod.git
