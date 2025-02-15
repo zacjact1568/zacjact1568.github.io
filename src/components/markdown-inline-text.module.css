@@ -1,0 +1,18 @@
+.emphasis,
+.code {
+  color: var(--color-accent);
+}
+
+.emphasis {
+  font-style: normal;
+  border-bottom: inset 2px var(--color-text-10);
+}
+
+.deletion {
+  text-decoration-color: var(--color-accent);
+}
+
+.code {
+  font-size: var(--article-special-font-size);
+  word-break: break-word;
+}

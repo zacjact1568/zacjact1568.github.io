@@ -1,0 +1,43 @@
+.title {
+  > .link {
+    font-weight: bold;
+    transition: color 0.1s ease-in;
+
+    @media (hover: hover) {
+      &:hover,
+      &:hover + .icon {
+        /*
+        .inside 优先级比这个高
+        鼠标移到链接上时图标就不会变色
+        使用 important 反转优先级
+        */
+        color: var(--color-accent) !important;
+      }
+    }
+
+    @media (hover: none) {
+      &:active,
+      &:active + .icon {
+        color: var(--color-accent) !important;
+      }
+    }
+  }
+
+  > .icon {
+    margin-left: 5px;
+    color: transparent;
+    transition: color 0.1s ease-in;
+  }
+}
+
+@media (hover: hover) {
+  .inside:hover .title > .icon {
+    color: var(--color-text-10);
+  }
+}
+
+@media (hover: none) {
+  .inside:active .title > .icon {
+    color: var(--color-text-10);
+  }
+}

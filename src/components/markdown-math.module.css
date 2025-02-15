@@ -1,0 +1,14 @@
+.block,
+.inline {
+  font-size: var(--article-special-font-size);
+}
+
+.block {
+  margin-bottom: var(--article-block-space);
+  padding: var(--article-card-paddings);
+  overflow-x: auto;
+}
+
+.inline {
+  color: var(--color-accent);
+}

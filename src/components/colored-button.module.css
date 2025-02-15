@@ -1,0 +1,51 @@
+.button {
+  padding: 6px 14px 7px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 20px;
+  border: unset;
+
+  &.style-a {
+    color: var(--color-accent-80);
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--color-accent-10);
+      }
+    }
+
+    @media (hover: none) {
+      &:active {
+        background-color: var(--color-accent-10);
+      }
+    }
+  }
+
+  &.style-b {
+    color: var(--color-text-70);
+    background-color: var(--color-5);
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--color-accent);
+        background-color: var(--color-accent-10);
+      }
+    }
+
+    @media (hover: none) {
+      &:active {
+        color: var(--color-accent);
+        background-color: var(--color-accent-10);
+      }
+    }
+  }
+
+  > .left-icon {
+    margin-right: var(--iconSpacePx);
+  }
+
+  > .right-icon {
+    margin-left: var(--iconSpacePx);
+  }
+}

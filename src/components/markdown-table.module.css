@@ -1,0 +1,66 @@
+.table {
+  display: block;
+  margin-bottom: var(--article-block-space);
+  border-spacing: unset;
+  border-collapse: collapse;
+  font-size: var(--article-special-font-size);
+  overflow-x: auto;
+  word-break: keep-all;
+
+  > .head {
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    background-color: var(--color-accent-80);
+
+    /* thead、tbody 设置 border-radius 没效果 */
+    > .row > .cell {
+
+      &:first-child {
+        border-top-left-radius: var(--border-radius);
+      }
+
+      &:last-child {
+        border-top-right-radius: var(--border-radius);
+      }
+    }
+  }
+
+  > .body {
+    background-color: var(--color-3);
+
+    > .row {
+
+      &:not(:last-child) {
+        border-bottom: 1px solid var(--color-5);
+      }
+
+      &:last-child > .cell {
+
+        &:first-child {
+          border-bottom-left-radius: var(--border-radius);
+        }
+
+        &:last-child {
+          border-bottom-right-radius: var(--border-radius);
+        }
+      }
+    }
+  }
+
+  .cell {
+    padding: var(--article-card-paddings);
+
+    &.align-center {
+      text-align: center;
+    }
+
+    &.align-left {
+      text-align: start;
+    }
+
+    &.align-right {
+      text-align: end;
+    }
+  }
+}

@@ -1,0 +1,36 @@
+#toc {
+  max-height: 530px;
+  overflow-y: auto;
+  position: fixed;
+  left: 50%;
+  top: var(--tocTopPx);
+  transform: translateX(386px);
+
+  &.compact {
+    margin-bottom: 20px;
+    max-height: unset;
+    overflow: unset;
+    position: unset;
+    left: unset;
+    top: unset;
+    transform: unset;
+  }
+}
+
+#content {
+  font-size: 16px;
+  color: var(--color-text-70);
+
+  @media (max-width: 575px) {
+    font-size: 15px;
+  }
+
+  > .line {
+    border-color: var(--color-accent);
+    border-style: solid;
+  }
+
+  > .space {
+    height: var(--article-block-space);
+  }
+}

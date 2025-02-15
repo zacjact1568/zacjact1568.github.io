@@ -1,0 +1,21 @@
+.link {
+  color: var(--color-accent);
+  border-bottom: 1px dashed currentColor;
+  transition: filter 0.1s ease-in;
+
+  @media (hover: hover) {
+    &:hover {
+      color: var(--color-accent);
+      border-bottom-style: solid;
+      filter: brightness(85%);
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      color: var(--color-accent);
+      border-bottom-style: solid;
+      filter: brightness(85%);
+    }
+  }
+}

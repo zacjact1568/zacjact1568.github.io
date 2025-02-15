@@ -41,3 +41,6 @@ next-env.d.ts
 
 # ide directories
 /.idea
+
+# local resources
+**/_local

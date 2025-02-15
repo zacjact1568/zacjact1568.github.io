@@ -1,0 +1,10 @@
+.text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-text-70);
+
+  @media (max-width: 575px) {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+}

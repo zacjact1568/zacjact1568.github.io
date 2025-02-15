@@ -1,0 +1,7 @@
+.medium {
+  font-weight: 500;
+}
+
+.accent {
+  color: var(--color-accent);
+}

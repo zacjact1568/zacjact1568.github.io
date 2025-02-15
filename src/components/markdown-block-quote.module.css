@@ -1,0 +1,5 @@
+.quote {
+  font-size: 15px;
+  padding: var(--article-card-paddings);
+  border-left: 4px solid var(--color-accent);
+}

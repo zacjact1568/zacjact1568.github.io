@@ -1,0 +1,34 @@
+#top-space {
+  height: 1px;
+}
+
+#date {
+  display: block;
+  margin: 40px 0 0 2px;
+  font-size: 14px;
+}
+
+#title {
+  margin-top: 4px;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+#content {
+  margin-top: 60px;
+}
+
+@media (max-width: 575px) {
+
+  #top-space {
+    display: none;
+  }
+
+  #title {
+    font-size: 26px;
+  }
+
+  #content {
+    margin-top: 40px;
+  }
+}

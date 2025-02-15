@@ -1,0 +1,12 @@
+.list {
+  padding-inline-start: 20px;
+  line-height: 1.7;
+
+  &.ordered {
+    list-style-type: decimal;
+  }
+
+  > .item::marker {
+    color: var(--color-accent);
+  }
+}

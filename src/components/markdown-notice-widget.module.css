@@ -1,0 +1,110 @@
+.notice {
+  font-size: var(--article-special-font-size);
+  overflow: auto;
+
+  > .title {
+    padding: var(--article-card-paddings);
+    border-bottom: 1px solid #fafafa;
+    font-size: 14px;
+
+    > .text {
+      margin-left: 4px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      border-bottom: 1px solid #212121;
+    }
+  }
+
+  > .content {
+    padding: var(--article-card-paddings);
+    white-space: pre-line;
+    line-height: 1.6;
+  }
+
+  &.note {
+    background-color: #7e57c21a;
+
+    > .title {
+      background-color: #673ab71a;
+
+      > .icon {
+        color: #5e35b1;
+      }
+    }
+  }
+
+  &.tip {
+    background-color: #26a69a1a;
+
+    > .title {
+      background-color: #0096881a;
+
+      > .icon {
+        color: #00897b;
+      }
+    }
+  }
+
+  &.example {
+    background-color: #8d6e631a;
+
+    > .title {
+      background-color: #7955481a;
+
+      > .icon {
+        color: #6d4c41;
+      }
+    }
+  }
+
+  &.question {
+    background-color: #9ccc651a;
+
+    > .title {
+      background-color: #8bc34a1a;
+
+      > .icon {
+        color: #7cb342;
+      }
+    }
+  }
+
+  &.info {
+    background-color: #42a5f51a;
+
+    > .title {
+      background-color: #2196f31a;
+
+      > .icon {
+        color: #1e88e5;
+      }
+    }
+  }
+
+  &.warning {
+    background-color: #ffca281a;
+
+    > .title {
+      background-color: #ffc1071a;
+
+      > .icon {
+        color: #ffb300;
+      }
+    }
+  }
+
+  &.error {
+    background-color: #ef53501a;
+
+    > .title {
+      background-color: #f443361a;
+
+      > .icon {
+        color: #e53935;
+      }
+    }
+  }
+}

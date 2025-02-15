@@ -1,42 +1,354 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap&text=%E2%80%9C%E2%80%9D%E2%80%99%E2%80%98");
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-accent: rgba(56, 148, 215);
+  --color-accent-10: rgba(56, 148, 215, 0.1);
+  --color-accent-40: rgba(56, 148, 215, 0.4);
+  --color-accent-60: rgba(56, 148, 215, 0.6);
+  --color-accent-80: rgba(56, 148, 215, 0.8);
+
+  --color-background: white;
+  --color-background-soft: rgb(248, 248, 248);
+  --color-background-mute: rgb(242, 242, 242);
+  --color-background-selection: rgba(0, 0, 0, 0.8);
+  --color-background-95: rgba(255, 255, 255, 0.95);
+  --color-background-90: rgba(255, 255, 255, 0.9);
+  --color-background-85: rgba(255, 255, 255, 0.85);
+  --color-background-80: rgba(255, 255, 255, 0.8);
+
+  --color-text: var(--color-text-80);
+  --color-text-diluted: var(--color-text-10);
+  --color-text-selection: white;
+  --color-text-link: var(--color-text-80);
+  --color-text-link-focused: var(--color-text-90);
+
+  --color-text-10: rgba(0, 0, 0, 0.1);
+  --color-text-20: rgba(0, 0, 0, 0.2);
+  --color-text-30: rgba(0, 0, 0, 0.3);
+  --color-text-40: rgba(0, 0, 0, 0.4);
+  --color-text-50: rgba(0, 0, 0, 0.5);
+  --color-text-60: rgba(0, 0, 0, 0.6);
+  --color-text-70: rgba(0, 0, 0, 0.7);
+  --color-text-80: rgba(0, 0, 0, 0.8);
+  --color-text-90: rgba(0, 0, 0, 0.9);
+
+  --color-divider: rgba(0, 0, 0, 0.1);
+
+  --color-2: rgba(0, 0, 0, 0.02);
+  --color-3: rgba(0, 0, 0, 0.03);
+  --color-5: rgba(0, 0, 0, 0.05);
+  --color-7: rgba(0, 0, 0, 0.07);
+  --color-10: rgba(0, 0, 0, 0.1);
+  --color-15: rgba(0, 0, 0, 0.15);
+  --color-20: rgba(0, 0, 0, 0.2);
+  --color-40: rgba(0, 0, 0, 0.4);
+  --color-70: rgba(0, 0, 0, 0.7);
+  --color-80: rgba(0, 0, 0, 0.8);
+  --color-100: black;
+
+  --color-reverse-80: rgba(255, 255, 255, 0.8);
+  --color-reverse-90: rgba(255, 255, 255, 0.9);
+  --color-reverse-100: white;
+
+  --border-radius: 12px;
+  --article-block-space: 12px;
+  --article-special-font-size: 0.96em;
+  --article-card-paddings: 10px 18px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-background: rgb(24, 24, 24);
+    --color-background-soft: rgb(34, 34, 34);
+    --color-background-mute: rgb(40, 40, 40);
+    --color-background-selection: white;
+    --color-background-95: rgba(24, 24, 24, 0.95);
+    --color-background-90: rgba(24, 24, 24, 0.9);
+    --color-background-85: rgba(24, 24, 24, 0.85);
+    --color-background-80: rgba(24, 24, 24, 0.8);
+
+    --color-text-selection: rgba(0, 0, 0, 0.8);
+
+    --color-text-10: rgba(235, 235, 235, 0.1);
+    --color-text-20: rgba(235, 235, 235, 0.2);
+    --color-text-30: rgba(235, 235, 235, 0.3);
+    --color-text-40: rgba(235, 235, 235, 0.4);
+    --color-text-50: rgba(235, 235, 235, 0.5);
+    --color-text-60: rgba(235, 235, 235, 0.6);
+    --color-text-70: rgba(235, 235, 235, 0.7);
+    --color-text-80: rgba(235, 235, 235, 0.8);
+    --color-text-90: rgba(235, 235, 235, 0.9);
+
+    --color-divider: rgba(255, 255, 255, 0.1);
+
+    --color-2: rgba(255, 255, 255, 0.02);
+    --color-3: rgba(255, 255, 255, 0.03);
+    --color-5: rgba(255, 255, 255, 0.05);
+    --color-7: rgba(255, 255, 255, 0.07);
+    --color-10: rgba(255, 255, 255, 0.1);
+    --color-15: rgba(255, 255, 255, 0.15);
+    --color-20: rgba(255, 255, 255, 0.2);
+    --color-40: rgba(255, 255, 255, 0.4);
+    --color-70: rgba(255, 255, 255, 0.7);
+    --color-80: rgba(255, 255, 255, 0.8);
+    --color-100: white;
+
+    --color-reverse-80: rgba(0, 0, 0, 0.8);
+    --color-reverse-90: rgba(0, 0, 0, 0.9);
+    --color-reverse-100: black;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  img {
+    filter: brightness(80%);
   }
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont,
+  "Helvetica Neue", "Arial", "Roboto", "Source Han Sans SC", "Noto Sans SC",
+  "PingFang SC", "Microsoft YaHei", sans-serif;
+  outline: none;
+  max-width: 100vw;
+  overflow-x: hidden;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  transition: color 0.3s, background-color 0.3s;
+  font-size: 16px;
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+::selection {
+  background-color: var(--color-background-selection);
+  color: var(--color-text-selection);
 }
 
 a {
-  color: inherit;
   text-decoration: none;
+  color: var(--color-text-link);
+  transition: color 0.1s ease-in;
+
+  @media (hover: hover) {
+    &:hover {
+      color: var(--color-text-link-focused);
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      color: var(--color-text-link-focused);
+    }
+  }
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+.source-han-sans-font {
+  font-family: "Source Han Sans SC", "Noto Sans SC", -apple-system, BlinkMacSystemFont,
+  "Helvetica Neue", "Arial", "Roboto", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.jetbrains-mono-font {
+  font-family: "JetBrains Mono", "Fira Code", "Menlo", "Consolas", "Roboto Mono", monospace;
+}
+
+.universal-card {
+  border-radius: var(--border-radius);
+  background-color: var(--color-3);
+}
+
+.ellipsis-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+svg,
+.no-select,
+.no-select-default-cursor {
+  user-select: none;
+}
+
+.no-select-default-cursor {
+  cursor: default;
+}
+
+.main-content-height {
+  min-height: 73vh;
+}
+
+.color-transition {
+  transition: color 0.2s ease-in, background-color 0.2s ease-in;
+}
+
+span.full-quote {
+  font-family: "Source Han Sans SC", "Noto Sans SC", "PingFang SC",
+  "Microsoft YaHei", sans-serif;
+}
+
+span.emoji {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI",
+  "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+}
+
+svg.text-icon {
+  height: 0.8em;
+  vertical-align: -0.075em;
+}
+
+.container {
+  width: 760px;
+  margin: 0 auto;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--color-divider);
+  background: var(--color-background-90);
+  backdrop-filter: blur(4px);
+
+  > div {
+    display: grid;
+    grid-template-columns: auto 1fr 32px;
+    justify-items: center;
+    align-items: center;
+    column-gap: 8px;
+    padding-top: 26px;
+    padding-bottom: 26px;
+
+    > #home {
+      margin-left: 4px;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    > .navigation-button {
+      font-size: 18px;
+    }
+
+    @media (hover: hover) {
+      > #home:hover,
+      > .navigation-button:hover {
+        color: var(--color-accent);
+      }
+    }
+
+    @media (hover: none) {
+      > #home:active,
+      > .navigation-button:active {
+        color: var(--color-accent);
+      }
+    }
+  }
+}
+
+footer {
+  margin-top: 64px;
+  border-top: 1px solid var(--color-divider);
+
+  > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 16px;
+    padding-bottom: 42px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--color-text-30);
+
+    > svg {
+      margin-left: 6px;
+      transform: translateY(0.015em);
+    }
+  }
+}
+
+@media (max-width: 1199px) {
+  .container {
+    width: 640px;
+  }
+}
+
+@media (max-width: 991px) {
+  .container {
+    width: 600px;
+  }
+}
+
+@media (max-width: 767px) {
+  .container {
+    width: 540px;
+  }
+}
+
+@media (max-width: 575px) {
+  :root {
+    --border-radius: 10px;
+    --article-block-space: 10px;
+  }
+
+  .container {
+    width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  header {
+    > div {
+      grid-template-columns: auto 1fr 30px;
+      column-gap: 6px;
+      padding-top: 22px;
+      padding-bottom: 22px;
+
+      > #home {
+        font-size: 21px;
+      }
+
+      > .navigation-button {
+        font-size: 16px;
+      }
+    }
+  }
+
+  footer {
+    > div {
+      padding-top: 14px;
+      padding-bottom: 28px;
+      font-size: 12px;
+    }
+  }
+}
+
+@media (max-width: 380px) {
+  header {
+    > div {
+      grid-template-columns: auto 1fr 28px;
+      column-gap: 4px;
+      padding-top: 18px;
+      padding-bottom: 18px;
+
+      > #home {
+        font-size: 18px;
+      }
+
+      > .navigation-button {
+        font-size: 15px;
+      }
+    }
   }
 }

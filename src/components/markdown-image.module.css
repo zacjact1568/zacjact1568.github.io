@@ -1,0 +1,30 @@
+.figure {
+  > .image {
+    display: unset;
+  }
+
+  > .caption {
+    font-size: 12px;
+
+    > .icon {
+      color: var(--color-accent);
+    }
+
+    > .text {
+      margin-left: 4px;
+      font-weight: 500;
+    }
+  }
+}
+
+.image,
+.figure > .image {
+  display: block;
+  max-width: 100%;
+  /*
+  Next 会把图片宽高放到 HTML 上
+  在 CSS 里指定了宽，需要同时将高指定为 auto 以保持图片比例
+  */
+  height: auto;
+  border-radius: var(--border-radius);
+}

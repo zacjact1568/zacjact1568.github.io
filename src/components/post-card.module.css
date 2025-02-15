@@ -1,0 +1,25 @@
+.card {
+  padding: 26px 30px;
+
+  @media (max-width: 575px) {
+    padding: 16px 20px;
+    border-radius: unset;
+  }
+
+  > .date {
+    font-size: 12px;
+  }
+
+  > .title {
+    margin-top: 4px;
+    font-size: 23px;
+
+    @media (max-width: 575px) {
+      font-size: 20px;
+    }
+  }
+
+  > .excerpt {
+    margin-top: 6px;
+  }
+}
