@@ -22,7 +22,7 @@
     "lowlight": "^3.3.0",
     "marked": "^15.0.7",
     "marked-katex-extension": "^5.1.4",
-    "next": "^15.1.7",
+    "next": "^15.2.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sharp": "^0.33.5"
