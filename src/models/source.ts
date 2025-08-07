@@ -44,8 +44,9 @@ export function readRaw(id: string) {
 export function obtainPostImageSize(src: string): [number, number] {
   // 事实上 Next 也是用的 image-size 这个库来获取图片尺寸
   // 见 image-optimizer
-  const path = join(PUBLIC_PATH, src)
-  const size = imageSize(path);
+  const path = join(PUBLIC_PATH, src);
+  const buffer = fs.readFileSync(path);
+  const size = imageSize(buffer);
   if (!size.width || !size.height) {
     throw Error(`Could not obtain image size from ${src}`);
   }

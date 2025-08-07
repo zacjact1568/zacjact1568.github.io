@@ -9,6 +9,7 @@ import {
 import {
   MarkdownBasicData,
   MarkdownData,
+  MarkdownNoticeWidgetData,
   MarkdownWidgetData,
   MarkdownWidgetType,
 } from "@/models/model";
@@ -124,7 +125,7 @@ const OverridingTokenizer: TokenizerObject = {
       throw Error(`Unsupported image link = ${href}`);
     }
     // 将 images 换成 image
-    href = "/image" + href.slice(7)
+    href = "/image" + href.slice(7);
     const [width, height] = obtainPostImageSize(href);
     // 编译时将 jpg 后缀替换为 webp
     if (production && href.endsWith(".jpg")) {
@@ -136,6 +137,7 @@ const OverridingTokenizer: TokenizerObject = {
       href: href,
       title: link.title,
       text: link.text,
+      tokens: link.tokens,
       width: width,
       height: height,
     };
@@ -193,6 +195,53 @@ marked.use(
   // 或者设置 nonStandard: true 选项
   markedKatex(),
 );
+
+interface WidgetBase<W extends MarkdownWidgetData> {
+  type: "widget";
+  raw: string;
+  object: W;
+}
+
+declare module "marked" {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Tokens {
+    interface FullQuote {
+      type: "full-quote";
+      raw: string;
+      text: string;
+    }
+
+    interface Emoji {
+      type: "emoji";
+      raw: string;
+      text: string;
+    }
+
+    type Widget = WidgetBase<MarkdownWidgetData>;
+
+    type NoticeWidget = WidgetBase<MarkdownNoticeWidgetData>;
+
+    interface IdentifiableHeading extends Tokens.Heading {
+      id: string;
+    }
+
+    interface HighlightedCode extends Tokens.Code {
+      tokens: Root;
+    }
+
+    interface SizedImage extends Tokens.Image {
+      width: number;
+      height: number;
+    }
+
+    interface Math {
+      type: "inlineKatex" | "blockKatex";
+      raw: string;
+      text: string;
+      displayMode: boolean;
+    }
+  }
+}
 
 function extractTableOfContents(data: MarkdownBasicData, maxDepth: number) {
   const id = Array(maxDepth).fill(0);
