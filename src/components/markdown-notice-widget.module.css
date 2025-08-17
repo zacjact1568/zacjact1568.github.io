@@ -1,11 +1,15 @@
 .notice {
-  font-size: var(--article-special-font-size);
+  font-size: 0.96em;
   overflow: auto;
 
   > .title {
-    padding: var(--article-card-paddings);
+    padding: 10px 18px;
     border-bottom: 1px solid #fafafa;
     font-size: 14px;
+
+    @media (max-width: 575px) {
+      padding: 8px 16px;
+    }
 
     > .text {
       margin-left: 4px;
@@ -19,9 +23,13 @@
   }
 
   > .content {
-    padding: var(--article-card-paddings);
+    padding: 10px 18px;
     white-space: pre-line;
     line-height: 1.6;
+
+    @media (max-width: 575px) {
+      padding: 8px 16px;
+    }
   }
 
   &.note {

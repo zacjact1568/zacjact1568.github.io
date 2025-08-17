@@ -1,9 +1,9 @@
-#toc {
+.toc {
   max-height: 530px;
   overflow-y: auto;
   position: fixed;
   left: 50%;
-  top: var(--tocTopPx);
+  top: var(--tocTopStyle);
   transform: translateX(386px);
 
   &.compact {
@@ -17,12 +17,20 @@
   }
 }
 
-#content {
+.content {
   font-size: 16px;
   color: var(--color-text-70);
 
   @media (max-width: 575px) {
     font-size: 15px;
+  }
+
+  > .paragraph:not(.edge-to-edge),
+  > .list {
+    @media (max-width: 575px) {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
   }
 
   > .line {
@@ -31,6 +39,10 @@
   }
 
   > .space {
-    height: var(--article-block-space);
+    height: 12px;
+
+    @media (max-width: 575px) {
+      height: 10px;
+    }
   }
 }

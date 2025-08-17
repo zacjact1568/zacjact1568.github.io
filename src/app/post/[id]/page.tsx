@@ -19,12 +19,8 @@ export default async function Post({ params }: Props) {
   const post = readPost((await params).id);
   return (
     <>
-      <div id={styles["top-space"]} />
       <DateTime dateTime={post.date} idName={styles.date} />
-      <div
-        id={styles.title}
-        className={`${BarlowFont.className} no-select-default-cursor`}
-      >
+      <div id={styles.title} className={BarlowFont.className}>
         {post.title}
       </div>
       <MarkdownArticle data={post.content} idName={styles.content} />

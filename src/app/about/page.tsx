@@ -11,10 +11,7 @@ export default function About() {
   const content = readRaw("about");
   return (
     <>
-      <div id={styles["top-space"]} />
-      <div id={styles.title} className="no-select-default-cursor">
-        关于
-      </div>
+      <div id={styles.title}>关于</div>
       <MarkdownArticle data={content} idName={styles.content} />
     </>
   );

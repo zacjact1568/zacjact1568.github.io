@@ -20,7 +20,7 @@ export default function MarkdownMath({ token }: Props) {
     <>
       {token.displayMode ? (
         <p
-          className={`${styles.block} universal-card`}
+          className={`${styles.block} universal-card-background universal-card-rounded-corners`}
           dangerouslySetInnerHTML={{
             __html: html,
           }}

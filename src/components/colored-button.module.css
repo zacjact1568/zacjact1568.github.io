@@ -42,10 +42,10 @@
   }
 
   > .left-icon {
-    margin-right: var(--iconSpacePx);
+    margin-right: var(--iconSpaceStyle);
   }
 
   > .right-icon {
-    margin-left: var(--iconSpacePx);
+    margin-left: var(--iconSpaceStyle);
   }
 }

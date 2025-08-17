@@ -10,7 +10,7 @@ interface Props {
   rightIcon?: IconProp;
   iconSpace?: number;
   styling?: ColoredButtonStyle;
-  idName?: string;
+  className?: string;
   onClick: () => void;
   // 插槽元素 children 这个名字是定死的
   children: React.ReactNode;
@@ -21,17 +21,16 @@ export default function ColoredButton({
   rightIcon,
   iconSpace,
   styling = ColoredButtonStyle.A,
-  idName,
+  className,
   onClick,
   children,
 }: Props) {
   return (
     <button
-      id={idName}
-      className={`${styles.button} ${BarlowFont.className} color-transition ${styling === ColoredButtonStyle.A ? styles["style-a"] : ""} ${styling === ColoredButtonStyle.B ? styles["style-b"] : ""}`}
+      className={`${className || ""} ${styles.button} ${BarlowFont.className} color-transition ${styling === ColoredButtonStyle.A ? styles["style-a"] : ""} ${styling === ColoredButtonStyle.B ? styles["style-b"] : ""}`}
       style={
         {
-          "--iconSpacePx": iconSpace ? iconSpace + "px" : "unset",
+          "--iconSpaceStyle": iconSpace ? iconSpace + "px" : "unset",
         } as CSSProperties
       }
       onClick={onClick}

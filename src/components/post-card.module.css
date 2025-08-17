@@ -1,9 +1,8 @@
 .card {
-  padding: 26px 30px;
+  padding: 24px 26px;
 
   @media (max-width: 575px) {
-    padding: 16px 20px;
-    border-radius: unset;
+    padding: 16px 18px;
   }
 
   > .date {

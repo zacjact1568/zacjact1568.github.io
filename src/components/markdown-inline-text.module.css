@@ -13,6 +13,6 @@
 }
 
 .code {
-  font-size: var(--article-special-font-size);
+  font-size: 0.96em;
   word-break: break-word;
 }

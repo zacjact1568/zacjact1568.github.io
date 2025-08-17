@@ -12,7 +12,7 @@ export default function DateTime({ dateTime, idName, className }: Props) {
     <time
       id={idName}
       dateTime={dateTime}
-      className={`${className || ""} ${styles.time} ${BarlowFont.className} no-select-default-cursor`}
+      className={`${className || ""} ${styles.time} ${BarlowFont.className} no-select default-cursor`}
     >
       {dateTime}
     </time>

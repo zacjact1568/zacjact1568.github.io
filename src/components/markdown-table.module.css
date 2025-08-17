@@ -1,66 +1,63 @@
-.table {
-  display: block;
-  margin-bottom: var(--article-block-space);
-  border-spacing: unset;
-  border-collapse: collapse;
-  font-size: var(--article-special-font-size);
+/*
+table 默认 display: table，会造成表格过宽时顶出右侧
+设置成 display: block 可避免，但 width: 100% 失效
+所以在外面再套一层
+*/
+.wrapper {
+  margin-bottom: 12px;
   overflow-x: auto;
-  word-break: keep-all;
 
-  > .head {
-    font-size: 14px;
-    font-weight: 500;
-    color: white;
-    background-color: var(--color-accent-80);
-
-    /* thead、tbody 设置 border-radius 没效果 */
-    > .row > .cell {
-
-      &:first-child {
-        border-top-left-radius: var(--border-radius);
-      }
-
-      &:last-child {
-        border-top-right-radius: var(--border-radius);
-      }
-    }
+  @media (max-width: 575px) {
+    margin-bottom: 10px;
   }
 
-  > .body {
-    background-color: var(--color-3);
+  > .table {
+    border-spacing: unset;
+    border-collapse: collapse;
+    font-size: 0.96em;
+    word-break: keep-all;
 
-    > .row {
+    @media (max-width: 575px) {
+      /*
+      这里无需设置成 min-width，并不会限制宽度超出
+      是因为 display: table 特殊？
+      */
+      width: 100%;
+    }
 
-      &:not(:last-child) {
+    > .head {
+      font-size: 14px;
+      font-weight: 500;
+      color: white;
+      background-color: var(--color-accent-80);
+    }
+
+    > .body {
+      background-color: var(--color-3);
+
+      > .row:not(:last-child) {
         border-bottom: 1px solid var(--color-5);
       }
+    }
 
-      &:last-child > .cell {
+    .cell {
+      padding: 10px 18px;
 
-        &:first-child {
-          border-bottom-left-radius: var(--border-radius);
-        }
-
-        &:last-child {
-          border-bottom-right-radius: var(--border-radius);
-        }
+      @media (max-width: 575px) {
+        padding: 8px 16px;
       }
-    }
-  }
 
-  .cell {
-    padding: var(--article-card-paddings);
+      &.align-center {
+        text-align: center;
+      }
 
-    &.align-center {
-      text-align: center;
-    }
+      &.align-left {
+        text-align: start;
+      }
 
-    &.align-left {
-      text-align: start;
-    }
-
-    &.align-right {
-      text-align: end;
+      &.align-right {
+        text-align: end;
+      }
     }
   }
 }

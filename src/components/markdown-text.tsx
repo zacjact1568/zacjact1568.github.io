@@ -4,19 +4,12 @@ import styles from "./markdown-text.module.css";
 
 interface Props {
   data: MarkdownBasicData;
-  notSelectable?: boolean;
   className?: string;
 }
 
-export default function MarkdownText({
-  data,
-  notSelectable,
-  className,
-}: Props) {
+export default function MarkdownText({ data, className }: Props) {
   return (
-    <div
-      className={`${className} ${styles.text} ${notSelectable ? "no-select-default-cursor" : ""}`}
-    >
+    <div className={`${className || ""} ${styles.text}`}>
       <MarkdownInlineText data={data} />
     </div>
   );

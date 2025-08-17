@@ -1,0 +1,29 @@
+.footer {
+  margin-top: 64px;
+  border-top: 1px solid var(--color-3);
+
+  @media (max-width: 575px) {
+    margin-top: 48px;
+  }
+
+  > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 0 42px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--color-text-40);
+
+    @media (max-width: 575px) {
+      padding: 14px 0 28px;
+      font-size: 12px;
+    }
+
+    > svg {
+      margin-left: 6px;
+      transform: translateY(0.015em);
+    }
+  }
+}

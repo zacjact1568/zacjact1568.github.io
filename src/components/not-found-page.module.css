@@ -1,36 +1,45 @@
-#page {
+.page {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  > #icon {
-    font-size: 150px;
-    color: var(--color-text-diluted);
+  > .icon {
+    font-size: 140px;
+    color: var(--color-text-70);
 
     @media (max-width: 575px) {
       font-size: 100px;
     }
   }
 
-  > #redirect {
+  > .redirect {
     margin-top: 40px;
     font-size: 15px;
     font-weight: 500;
-    color: var(--color-text-40);
+    color: var(--color-text-70);
 
     @media (max-width: 575px) {
       margin-top: 24px;
       font-size: 14px;
     }
 
-    > #link {
-      color: var(--color-text-40);
+    > .link {
+      color: var(--color-text-70);
       border-bottom: 1px solid transparent;
 
-      &:hover {
-        color: var(--color-text-50);
-        border-bottom-color: currentColor;
+      @media (hover: hover) {
+        &:hover {
+          color: var(--color-text-80);
+          border-bottom-color: currentColor;
+        }
+      }
+
+      @media (hover: none) {
+        &:active {
+          color: var(--color-text-80);
+          border-bottom-color: currentColor;
+        }
       }
     }
   }

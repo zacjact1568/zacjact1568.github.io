@@ -4,11 +4,15 @@ import styles from "./markdown-list.module.css";
 import MarkdownInlineText from "@/components/markdown-inline-text";
 import MarkdownUnparsed from "@/components/markdown-unparsed";
 
-type Props = MarkdownComponent<Tokens.List>;
+interface Props extends MarkdownComponent<Tokens.List> {
+  className?: string;
+}
 
-export default function MarkdownList({ token }: Props) {
+export default function MarkdownList({ token, className }: Props) {
   return (
-    <ul className={`${styles.list} ${token.ordered ? styles.ordered : ""}`}>
+    <ul
+      className={`${className || ""} ${styles.list} ${token.ordered ? styles.ordered : ""}`}
+    >
       {token.items.map((item, index) => (
         <li key={index} className={styles.item}>
           {item.tokens.map((token, index) =>

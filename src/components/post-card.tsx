@@ -13,7 +13,7 @@ interface Props {
 export default function PostCard({ data, className }: Props) {
   return (
     <section
-      className={`${className} ${styles.card} ${focusableTitleStyles.inside} universal-card`}
+      className={`${className || ""} ${styles.card} ${focusableTitleStyles.inside} universal-card-background universal-card-rounded-corners`}
     >
       <DateTime dateTime={data.date} className={styles.date} />
       <FocusableTitle link={`/post/${data.id}`} className={styles.title}>

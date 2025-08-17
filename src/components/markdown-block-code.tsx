@@ -9,13 +9,13 @@ export default function MarkdownBlockCode({ token }: Props) {
   return (
     // Highlight 11 已经移除 useBR
     // <pre> 自带 white-space: pre
-    <pre className={`${styles.presentation} universal-card`}>
+    <pre
+      className={`${styles.presentation} universal-card-background universal-card-rounded-corners`}
+    >
       <code className={`${styles.content} jetbrains-mono-font`}>
         <MarkdownBlockCodeSpans tokens={token.tokens.children} />
       </code>
-      {token.lang && (
-        <div className={styles.language}>{token.lang}</div>
-      )}
+      {token.lang && <div className={styles.language}>{token.lang}</div>}
     </pre>
   );
 }

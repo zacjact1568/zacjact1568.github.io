@@ -1,12 +1,16 @@
 .toc {
   line-height: 1.9;
 
-  > #title {
+  @media (max-width: 575px) {
+    margin: 0 16px;
+  }
+
+  > .title {
     margin-bottom: 12px;
     font-size: 16px;
   }
 
-  > #content {
+  > .content {
     border-left: 4px solid var(--color-accent);
     padding-left: 8px;
 

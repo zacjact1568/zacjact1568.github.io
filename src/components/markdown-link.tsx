@@ -11,6 +11,8 @@ export default function MarkdownLink({ token }: Props) {
       href={token.href}
       title={token.title ? token.title : undefined}
       className={styles.link}
+      target="_blank"
+      referrerPolicy="no-referrer"
     >
       <MarkdownInlineText data={token.tokens} />
     </a>

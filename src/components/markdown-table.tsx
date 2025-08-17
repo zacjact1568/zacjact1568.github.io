@@ -7,39 +7,41 @@ type Props = MarkdownComponent<Tokens.Table>;
 
 export default function MarkdownTable({ token }: Props) {
   return (
-    <table className={styles.table}>
-      {token.header.length > 0 && (
-        <thead className={styles.head}>
-          <tr className={styles.row}>
-            {token.header.map((cell, index) => (
-              <td
-                key={index}
-                className={`${styles.cell} ${styles[`align-${cell.align || "center"}`]}`}
-              >
-                <MarkdownInlineText
-                  data={cell.tokens}
-                  basicallyMedium
-                  basicallyAccent
-                />
-              </td>
-            ))}
-          </tr>
-        </thead>
-      )}
-      <tbody className={styles.body}>
-        {token.rows.map((row, index) => (
-          <tr key={index} className={styles.row}>
-            {row.map((cell, index) => (
-              <td
-                key={index}
-                className={`${styles.cell} ${styles[`align-${cell.align || "center"}`]}`}
-              >
-                <MarkdownInlineText data={cell.tokens} />
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className={`${styles.wrapper} universal-card-rounded-corners`}>
+      <table className={`${styles.table} universal-card-rounded-corners`}>
+        {token.header.length > 0 && (
+          <thead className={styles.head}>
+            <tr className={styles.row}>
+              {token.header.map((cell, index) => (
+                <td
+                  key={index}
+                  className={`${styles.cell} ${styles[`align-${cell.align || "center"}`]}`}
+                >
+                  <MarkdownInlineText
+                    data={cell.tokens}
+                    basicallyMedium
+                    basicallyAccent
+                  />
+                </td>
+              ))}
+            </tr>
+          </thead>
+        )}
+        <tbody className={styles.body}>
+          {token.rows.map((row, index) => (
+            <tr key={index} className={styles.row}>
+              {row.map((cell, index) => (
+                <td
+                  key={index}
+                  className={`${styles.cell} ${styles[`align-${cell.align || "center"}`]}`}
+                >
+                  <MarkdownInlineText data={cell.tokens} />
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

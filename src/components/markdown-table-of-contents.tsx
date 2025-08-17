@@ -15,14 +15,12 @@ import MarkdownInlineText from "@/components/markdown-inline-text";
 interface Props {
   data: Tokens.IdentifiableHeading[];
   compact: boolean;
-  idName?: string;
   className?: string;
 }
 
 export default function MarkdownTableOfContents({
   data,
   compact,
-  idName,
   className,
 }: Props) {
   const [displayedManual, setDisplayedManual] = useState(false);
@@ -32,19 +30,19 @@ export default function MarkdownTableOfContents({
   );
   useEffect(() => setDisplayedManual(false), [compact]);
   return (
-    <div id={idName} className={`${className || ""} ${styles.toc} no-select`}>
+    <div className={`${className || ""} ${styles.toc} no-select`}>
       {compact && (
         <ColoredButton
           leftIcon={displayed ? faCircleChevronUp : faCircleChevronDown}
           iconSpace={4}
           styling={ColoredButtonStyle.B}
-          idName={styles.title}
+          className={styles.title}
           onClick={() => setDisplayedManual(!displayedManual)}
         >
           目录
         </ColoredButton>
       )}
-      <div id={styles.content} className={`${displayed ? "" : styles.hide}`}>
+      <div className={`${styles.content} ${displayed ? "" : styles.hide}`}>
         {data.map((token) => (
           <Link
             key={token.id}

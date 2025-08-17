@@ -22,12 +22,12 @@ export default function MarkdownNoticeWidget({ token }: Props) {
   const { level, title, content } = token.object;
   const [icon, defaultTitle] = obtainIconAndDefaultTitle(level);
   return (
-    <div className={`${styles.notice} ${styles[level]} universal-card`}>
+    <div
+      className={`${styles.notice} ${styles[level]} universal-card-rounded-corners`}
+    >
       <div className={styles.title}>
         <FontAwesomeIcon icon={icon} className={styles.icon} />
-        <span
-          className={`${styles.text} ${BarlowFont.className} no-select-default-cursor`}
-        >
+        <span className={`${styles.text} ${BarlowFont.className}`}>
           {title || defaultTitle}
         </span>
       </div>

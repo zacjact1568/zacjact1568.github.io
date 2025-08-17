@@ -2,11 +2,20 @@
 .heading-2,
 .heading-3 {
   color: var(--color-text-80);
+
+  @media (max-width: 575px) {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
 }
 
 .heading-1 {
-  margin-bottom: var(--article-block-space);
+  margin-bottom: 12px;
   font-size: 1.5rem;
+
+  @media (max-width: 575px) {
+    margin-bottom: 10px;
+  }
 
   &::before {
     margin-top: -6rem;

@@ -7,7 +7,9 @@ type Props = MarkdownComponent<Tokens.Blockquote>;
 
 export default function MarkdownBlockQuote({ token }: Props) {
   return (
-    <blockquote className={`${styles.quote} universal-card`}>
+    <blockquote
+      className={`${styles.quote} universal-card-background universal-card-rounded-corners`}
+    >
       {token.tokens.map((tokenSub, index) =>
         tokenSub.type === "paragraph" ? (
           <MarkdownParagraph

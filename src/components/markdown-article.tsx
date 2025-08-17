@@ -17,15 +17,10 @@ import MarkdownMath from "@/components/markdown-math";
 
 interface Props {
   data: MarkdownData;
-  notSelectable?: boolean;
   idName?: string;
 }
 
-export default function MarkdownArticle({
-  data,
-  notSelectable,
-  idName,
-}: Props) {
+export default function MarkdownArticle({ data, idName }: Props) {
   const { toc, basic } = data;
   const [width, setWidth] = useState(0);
   // 不要在这里初始化为 window.innerHeight
@@ -68,7 +63,10 @@ export default function MarkdownArticle({
     };
   }, []);
   return (
-    <div id={idName} style={{ "--tocTopPx": tocTop + "px" } as CSSProperties}>
+    <div
+      id={idName}
+      style={{ "--tocTopStyle": tocTop + "px" } as CSSProperties}
+    >
       {toc && tocTop > 0 && (
         // 注意 tocTop 要用 > 0 判断
         // 否则在 setTocTop 之前这里会显示一个 0，造成 top 测量偏大
@@ -76,16 +74,10 @@ export default function MarkdownArticle({
         <MarkdownTableOfContents
           data={toc}
           compact={compact}
-          idName={styles.toc}
-          className={compact ? styles.compact : undefined}
+          className={`${styles.toc} ${compact ? styles.compact : ""}`}
         />
       )}
-      <article
-        id={styles.content}
-        ref={contentElementRef}
-        // 用空字符串而不是 undefined，否则会被解析成 class="undefined"
-        className={`${notSelectable ? "no-select-default-cursor" : ""}`}
-      >
+      <article ref={contentElementRef} className={styles.content}>
         {basic.map((token, index) => {
           switch (token.type) {
             case "heading":
@@ -96,10 +88,14 @@ export default function MarkdownArticle({
                 />
               );
             case "paragraph":
+              const edgeToEdge = (token as Tokens.Paragraph).tokens.every(
+                (value) => value.type === "image",
+              );
               return (
                 <MarkdownParagraph
                   key={index}
                   token={token as Tokens.Paragraph}
+                  className={`${styles.paragraph} ${edgeToEdge ? styles["edge-to-edge"] : ""}`}
                 />
               );
             case "blockquote":
@@ -110,7 +106,13 @@ export default function MarkdownArticle({
                 />
               );
             case "list":
-              return <MarkdownList key={index} token={token as Tokens.List} />;
+              return (
+                <MarkdownList
+                  key={index}
+                  token={token as Tokens.List}
+                  className={styles.list}
+                />
+              );
             case "code":
               return (
                 <MarkdownBlockCode

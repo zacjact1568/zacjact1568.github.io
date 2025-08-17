@@ -1,12 +1,17 @@
 .block,
 .inline {
-  font-size: var(--article-special-font-size);
+  font-size: 0.96em;
 }
 
 .block {
-  margin-bottom: var(--article-block-space);
-  padding: var(--article-card-paddings);
+  margin-bottom: 12px;
+  padding: 10px 18px;
   overflow-x: auto;
+
+  @media (max-width: 575px) {
+    margin-bottom: 10px;
+    padding: 8px 16px;
+  }
 }
 
 .inline {

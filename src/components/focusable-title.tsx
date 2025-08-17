@@ -13,7 +13,7 @@ interface Props {
 
 export default function FocusableTitle({ link, className, children }: Props) {
   return (
-    <div className={`${className} ${styles.title} no-select`}>
+    <div className={`${className || ""} ${styles.title}`}>
       <Link href={link} className={`${styles.link} ${BarlowFont.className}`}>
         {children}
       </Link>

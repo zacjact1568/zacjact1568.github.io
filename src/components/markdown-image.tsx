@@ -19,7 +19,7 @@ export default function MarkdownImage({ token }: Props) {
             alt={caption}
             width={token.width}
             height={token.height}
-            className={styles.image}
+            className={`${styles.image} universal-card-rounded-corners`}
           />
           <figcaption className={styles.caption}>
             <FontAwesomeIcon icon={faFeather} className={styles.icon} />
@@ -34,7 +34,7 @@ export default function MarkdownImage({ token }: Props) {
           alt=""
           width={token.width}
           height={token.height}
-          className={styles.image}
+          className={`${styles.image} universal-card-rounded-corners`}
         />
       )}
     </>

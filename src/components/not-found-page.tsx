@@ -23,12 +23,12 @@ export default function NotFoundPage() {
     return () => clearTimeout(id);
   }, [countdown, router]);
   return (
-    <div id={styles.page} className="main-content-height">
-      <FontAwesomeIcon id={styles.icon} icon={faCircleExclamation} />
-      <div id={styles.redirect} className="no-select-default-cursor">
+    <div className={`${styles.page} main-content-height`}>
+      <FontAwesomeIcon className={styles.icon} icon={faCircleExclamation} />
+      <div className={`${styles.redirect} no-select default-cursor`}>
         <span className="emoji">{COUNTDOWN_EMOJIS[countdown - 1]}</span>{" "}
         秒后跳转到
-        <Link id={styles.link} href="/" replace>
+        <Link className={styles.link} href="/" replace>
           主页
         </Link>
       </div>
